@@ -29,13 +29,13 @@ class Database
         ~Database();
 
         /// Dodanie nowej druzyny(niepowtarzalne nazwy druzyn) wpisujac dane samodzielnie
-        void DodajTeam(Team team);
+        void DodajTeam();
 
         /// Usuniecie istniejacej druzyny
         void UsunTeam();
 
         /// Edytowanie danych istniejacego klubu
-        void EdytujTeam();
+        void EdytujTeam(int nrkolumny);
 
         /// Sortowanie bazy po danej kulumnie
         void SortujBazePo(int kolumna, bool rosnaco  = true);
@@ -59,13 +59,16 @@ class Database
         void WczytajZPlikuNoweTeamy(string NazwaPliku);
 
         ///Uaktualnienie danych druzyn po zakonczonych meczach(liczba zwyciestw/remisow/przegranych, bilans ostatnich spotkan) wczytanych z pliku
-        void WczytaZPlikuMecze();
+        void WczytaZPlikuMecze(string NazwaPliku);
 
         /// Zapisanie obecnej bazy do pliku
-        void ZapiszWPlikuBaze();
+        void ZapiszWPlikuBaze(string NazwaPliku);
 
-        /// Otwieranie zapisanej wczeœniej bazy danych z pliku
-        void OtworzBazeZPliku();
+        /// otwiera zapisana baze danych z pliku(kasuje to co jest obecnie w bazie)
+        void OtworzBazeZPliku(string NazwaPliku);
+
+        /// Usuwanie wszystkich danych z bazy
+        void Czysc();
 
         /// Przejscie na kolejna strone bazy danych
         bool NastepnaStrona();
@@ -81,6 +84,9 @@ class Database
 
         /// wylaczanie bazy
         void Zakoncz();
+
+        /// aktualizuje dane druzyn w oparciu o wynik meczu
+        void Aktualizuj(string gospodarz, string gosc, string GoleGospodarza, string GoleGosci);
 
 };
 

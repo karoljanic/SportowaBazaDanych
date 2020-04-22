@@ -151,7 +151,7 @@ void Display::WyswietlNaglowek(bool CzySaJakiesDane)
         cout << char(down_right);
         ZmienKolor(Czarny,Bialy);
         WyswietlInstrukcje(0);
-        for(int m = 1; m<15; m++)
+        for(int m = 1; m<21; m++)
         {
             for(int c = 0; c<=SzerokoscBazy; c++)
                 cout << " ";
@@ -318,19 +318,20 @@ void Display::WyswietlRekord(int numer, int Strona, Team team, bool CzyOstatni,b
 
 void Display::WyswietlInstrukcje(int k)
 {
-    if(k>29)
+    if(k>30)
         k = 0;
 
     string instrukcje[] =  {"", "###################################################################",
                                  "                        KLAWISZE FUNKCYJNE                         ",
                                  "###################################################################",
                                  "",
-                                 "  PRZESUN KURSOR W GORE                                  ARROW UP  ",
-                                 "  PRZESUN KURSOR W DOL                                 ARROW DOWN  ",
-                                 "  ZATWIERDZ                                                 ENTER  ",
-                                 "  DODAJ NOWY REKORD                                        INSERT  ",
-                                 "  USUN ISTNIEJACY REKORD                                   DELETE  ",
-                                 "  EDYTUJ ISTNIEJACY REKORD                                    'E'  ",
+                                 "  PRZESUN KURSOR W GORE                                  ARROW UP  ",///
+                                 "  PRZESUN KURSOR W DOL                                 ARROW DOWN  ",///
+                                 "  DODAJ NOWY REKORD                                        INSERT  ",///
+                                 "  DODAJ REKORDY Z PLIKU                                       'J'  ",
+                                 "  USUN REKORD                                              DELETE  ",///
+                                 "  EDYTUJ REKORD                                               'E'  ",///
+                                 "  ZATWIERDZ                                                 ENTER  ",///
                                  "  ZACZNIJ ZAZNACZAC KILKA                                   SHIFT  ",
                                  "  SORTUJ BAZE PO...                                           'S'  " ,
                                  "  CZY BAZA ZAWIERA DRUZYNE...?                                'Z'  ",
@@ -343,9 +344,9 @@ void Display::WyswietlInstrukcje(int k)
                                  "  DODAJ REZULTAT ZAKONCZONEGO MECZU                           'D'  ",
                                  "  DODAJ REZULTATY ZAKONCZONYCH MECZOW Z PLIKU                 'A'  ",
                                  "",
-                                 "  NASTEPNA STRONA(JESLI ISTNIEJE)                             'M'  ",
-                                 "  POPRZEDNIA STRONA(JESLI ISTNIEJE)                           'N'  ",
-                                 "  WYJSCIE DO MENU                                             'Q'  ",
+                                 "  NASTEPNA STRONA                                             'M'  ",///
+                                 "  POPRZEDNIA STRONA                                           'N'  ",///
+                                 "  WYJSCIE DO MENU                                             'Q'  ",///
                                  "",
                                  "###################################################################",
                                  "                        KLAWISZE FUNKCYJNE                         ",
@@ -374,6 +375,11 @@ void Display::WyswietlNumerStrony(int s)
         cout << " ";
     ZmienKolor(Czarny, Czarny);
     cout << "znalazles" << endl;
+}
+
+void Display::KolorNormalny()
+{
+    ZmienKolor(Czarny, Bialy);
 }
 
 

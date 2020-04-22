@@ -325,28 +325,28 @@ void Display::WyswietlInstrukcje(int k)
                                  "                        KLAWISZE FUNKCYJNE                         ",
                                  "###################################################################",
                                  "",
-                                 "  PRZESUN KURSOR W GORE                                  ARROW UP  ",
-                                 "  PRZESUN KURSOR W DOL                                 ARROW DOWN  ",
-                                 "  DODAJ NOWY REKORD                                        INSERT  ",
-                                 "  DODAJ REKORDY Z PLIKU                                       'J'  ",
-                                 "  USUN REKORD                                              DELETE  ",
-                                 "  EDYTUJ REKORD                                               'E'  ",
-                                 "  ZATWIERDZ                                                 ENTER  ",
+                                 "  PRZESUN KURSOR W GORE                                  ARROW UP  ",///
+                                 "  PRZESUN KURSOR W DOL                                 ARROW DOWN  ",///
+                                 "  DODAJ NOWY REKORD                                        INSERT  ",///
+                                 "  DODAJ REKORDY Z PLIKU                                       'J'  ",///
+                                 "  USUN REKORD                                              DELETE  ",///
+                                 "  EDYTUJ REKORD                                               'E'  ",///
+                                 "  ZATWIERDZ                                                 ENTER  ",///
                                  "  ZACZNIJ ZAZNACZAC KILKA                                   SHIFT  ",
-                                 "  SORTUJ BAZE PO...                                           'S'  " ,
+                                 "  SORTUJ BAZE PO...                                           'S'  ",
                                  "  CZY BAZA ZAWIERA DRUZYNE...?                                'Z'  ",
                                  "  WYSWIETL REKORDY ZAWIERAJACE...                             'W'  ",
                                  "  FUNKCJA MATEMATYCZNA                                        'F'  ",
                                  "",
-                                 "  ZAPISZ BAZE DO PLIKU                                        'P'  ",
-                                 "  OTWORZ ISTNIEJACA BAZE Z PLIKU                              'O'  ",
+                                 "  ZAPISZ BAZE DO PLIKU                                        'P'  ",///
+                                 "  OTWORZ ISTNIEJACA BAZE Z PLIKU                              'O'  ",///
                                  "",
-                                 "  DODAJ REZULTAT ZAKONCZONEGO MECZU                           'D'  ",
-                                 "  DODAJ REZULTATY ZAKONCZONYCH MECZOW Z PLIKU                 'A'  ",
+                                 "  DODAJ REZULTAT ZAKONCZONEGO MECZU                           'D'  ",///
+                                 "  DODAJ REZULTATY ZAKONCZONYCH MECZOW Z PLIKU                 'A'  ",///
                                  "",
-                                 "  NASTEPNA STRONA(JESLI ISTNIEJE)                             'M'  ",
-                                 "  POPRZEDNIA STRONA(JESLI ISTNIEJE)                           'N'  ",
-                                 "  WYJSCIE DO MENU                                             'Q'  ",
+                                 "  NASTEPNA STRONA                                             'M'  ",///
+                                 "  POPRZEDNIA STRONA                                           'N'  ",///
+                                 "  WYJSCIE DO MENU                                             'Q'  ",///
                                  "",
                                  "###################################################################",
                                  "                        KLAWISZE FUNKCYJNE                         ",
