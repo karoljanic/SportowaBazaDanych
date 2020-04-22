@@ -1,0 +1,58 @@
+#include <string>
+#include <fstream>
+#include <iostream>
+#include <windows.h>
+
+#include "Team.h"
+#include "Database.h"
+
+#ifndef DISPLAY_H
+#define DISPLAY_H
+
+
+class Display
+{
+
+    public:
+        ///konstruktor
+        Display();
+
+        ///destruktor
+        virtual ~Display();
+
+        ///dostepne kolory
+        enum colors{};
+
+        /// zmiana koloru tesktu i tla w konsoli, dostepne kolory
+        void ZmienKolor(colors tlo, colors tekst);
+
+        /// uzywane linie tabeli
+        enum lines{};
+
+        /// wyswietlanie naglowka bazy danych
+        void WyswietlNaglowek();
+
+        /// wyswietlenie pierwszego rekordu(gdy jest tylko jeden rekord)
+        void WyswietlPojedynczyRekord(Team team);
+
+        /// wyswietlanie rekordu rozpoczynajacego(gdy rekordow jest wiecej niz jeden)
+        void WyswietlPoczatkowyRekord(Team team);
+
+        /// wyswietlanie rekordu srodkowego(gdy rekordow jest wiecej niz jeden)
+        void WyswietlRekord(Team team);
+
+        /// wyswietlanie rekordu konczacego(gdy rekordow jest wiecej niz jeden)
+        void WyswietlOstatniRekord(Team team);
+
+        /// wyswietlanie instrukcji obslugi
+        void WyswietlInstrukcje();
+
+        /// czuszczenie ekranu
+        void CzyscEkran()
+
+
+
+
+};
+
+#endif /// DISPLAY_H

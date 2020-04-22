@@ -1,0 +1,77 @@
+# depslib dependency file v1.0
+1586995117 source:c:\users\user\desktop\bazadanych\src\database.cpp
+	"Database.h"
+	<string>
+
+1586995174 c:\users\user\desktop\bazadanych\include\database.h
+	<Team.h>
+	<string>
+
+1586995156 c:\users\user\desktop\bazadanych\include\team.h
+	<string>
+
+1586995248 source:c:\users\user\desktop\bazadanych\main.cpp
+	<iostream>
+	"Team.h"
+	"Database.h"
+
+1586995386 source:c:\users\user\desktop\bazadanych\src\team.cpp
+	<iostream>
+	"Team.h"
+
+1587393695 source:c:\users\user\documents\github\database-in-cplusplus\bazadanych\main.cpp
+	<iostream>
+	<string>
+	<fstream>
+	<windows.h>
+	<conio.h>
+	"Team.h"
+	"Database.h"
+	"Display.h"
+
+1587205452 c:\users\user\documents\github\database-in-cplusplus\bazadanych\include\team.h
+	<string>
+	<fstream>
+	<iostream>
+
+1587393614 c:\users\user\documents\github\database-in-cplusplus\bazadanych\include\database.h
+	<string>
+	<fstream>
+	<iostream>
+	<list>
+	"Team.h"
+
+1587393609 source:c:\users\user\documents\github\database-in-cplusplus\bazadanych\src\database.cpp
+	<string>
+	<fstream>
+	<iostream>
+	<list>
+	<cstdlib>
+	"Team.h"
+	"Database.h"
+	"Display.h"
+
+1587164753 source:c:\users\user\documents\github\database-in-cplusplus\bazadanych\src\team.cpp
+	<iostream>
+	<fstream>
+	<string>
+	"Team.h"
+	"Database.h"
+
+1587393676 source:c:\users\user\documents\github\database-in-cplusplus\bazadanych\src\display.cpp
+	<string>
+	<fstream>
+	<iostream>
+	<windows.h>
+	"Team.h"
+	"Database.h"
+	"Display.h"
+
+1587377030 c:\users\user\documents\github\database-in-cplusplus\bazadanych\include\display.h
+	<string>
+	<fstream>
+	<iostream>
+	<windows.h>
+	"Team.h"
+	"Database.h"
+
