@@ -160,7 +160,7 @@ void Display::WyswietlNaglowek(bool CzySaJakiesDane)
                 cout << " ";
             WyswietlInstrukcje(2*m);
         }
-}
+    }
 }
 
 void Display::WyswietlRekord(int numer, int Strona, Team team, bool CzyOstatni,bool CzyWyrozniony)
@@ -328,21 +328,21 @@ void Display::WyswietlInstrukcje(int k)
                                  "  PRZESUN KURSOR W GORE                                  ARROW UP  ",///
                                  "  PRZESUN KURSOR W DOL                                 ARROW DOWN  ",///
                                  "  DODAJ NOWY REKORD                                        INSERT  ",///
-                                 "  DODAJ REKORDY Z PLIKU                                       'J'  ",
+                                 "  DODAJ REKORDY Z PLIKU                                       'J'  ",///
                                  "  USUN REKORD                                              DELETE  ",///
                                  "  EDYTUJ REKORD                                               'E'  ",///
                                  "  ZATWIERDZ                                                 ENTER  ",///
                                  "  ZACZNIJ ZAZNACZAC KILKA                                   SHIFT  ",
-                                 "  SORTUJ BAZE PO...                                           'S'  " ,
+                                 "  SORTUJ BAZE PO...                                           'S'  ",
                                  "  CZY BAZA ZAWIERA DRUZYNE...?                                'Z'  ",
                                  "  WYSWIETL REKORDY ZAWIERAJACE...                             'W'  ",
                                  "  FUNKCJA MATEMATYCZNA                                        'F'  ",
                                  "",
-                                 "  ZAPISZ BAZE DO PLIKU                                        'P'  ",
-                                 "  OTWORZ ISTNIEJACA BAZE Z PLIKU                              'O'  ",
+                                 "  ZAPISZ BAZE DO PLIKU                                        'P'  ",///
+                                 "  OTWORZ ISTNIEJACA BAZE Z PLIKU                              'O'  ",///
                                  "",
-                                 "  DODAJ REZULTAT ZAKONCZONEGO MECZU                           'D'  ",
-                                 "  DODAJ REZULTATY ZAKONCZONYCH MECZOW Z PLIKU                 'A'  ",
+                                 "  DODAJ REZULTAT ZAKONCZONEGO MECZU                           'D'  ",///
+                                 "  DODAJ REZULTATY ZAKONCZONYCH MECZOW Z PLIKU                 'A'  ",///
                                  "",
                                  "  NASTEPNA STRONA                                             'M'  ",///
                                  "  POPRZEDNIA STRONA                                           'N'  ",///

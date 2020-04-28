@@ -19,6 +19,8 @@ class Team
         string OstatniMecz;                       /// Rezultat ostatniego spotakania(W,L,R,-)
         string PrzedOstatniMecz;                  /// Rezultat przed ostatniego spotkania(W,L,R,-)
         string PrzedPrzedOstatniMecz;             /// Rezultat przed przed ostatniego spotakania(W,L,R,-)
+        bool CzyWidoczny;
+        int porownywany;
 
         /// Konstruktor
         Team(string TeamName = "",
@@ -51,6 +53,13 @@ class Team
 
         ///Sprawdzenie czy uzytkownik wprowadzil poprawny status mecze(W,D,l,-)
         bool CzyPoprawnyStan(string OdpowiedzUzytkownika);
+
+
+
+
+
+
+
 
 };
 

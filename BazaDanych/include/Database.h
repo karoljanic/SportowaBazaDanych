@@ -12,19 +12,21 @@ using namespace std;
 
 class Database
 {
-    public:
+    private:
         string NazwaBazy;
         int LiczbaRekordow;
         int LiczbaKolumn;
         int LiczbaStron ;
         int Strona;
-        int Pozycja;
+        int Pozycja, Poz1, Poz2;
+        bool CzyGlowna;
 
         list <Team> Dane;
         string* Naglowki;
 
+    public:
         /// Konstruktor
-        Database(int HowManyColumns, string Nazwa, string Naglowki[]);
+        Database(int HowManyColumns, string Nazwa, string Naglowki[], bool czyGlowna);
         ///Destruktor
         ~Database();
 
@@ -32,10 +34,10 @@ class Database
         void DodajTeam();
 
         /// Usuniecie istniejacej druzyny
-        void UsunTeam();
+        void UsunTeam(bool kilka);
 
         /// Edytowanie danych istniejacego klubu
-        void EdytujTeam(int nrkolumny);
+        void EdytujTeam(int nrkolumny, bool dlawszystkich);
 
         /// Sortowanie bazy po danej kulumnie
         void SortujBazePo(int kolumna, bool rosnaco  = true);
@@ -44,16 +46,20 @@ class Database
         void ZaznaczKilka();
 
         ///Zwraca bool'a okreslajacego czy dryzyna o danej zawie istnieje
-        bool CzyIstnieje(string druzyna);
+        int CzyIstnieje(string druzyna);
 
         /// Wyswietlenie rekordow ktore zawieraja okreslona ceche
         void WybierzZawierajace();
+
+        void WarunkiRekordow(int kolumna);
 
         /// Uaktualnienie danych druzynu po zakonczonym meczu(liczba zwyciestw/remisow/przegranych, bilans ostatnich spotkan)
         void DodajMecz();
 
         /// Wyswietlenie bazy danych
         void Wyswietl();
+
+        void Wyswietl2();
 
         /// Wczytanie nowych dru¿yn z pliku
         void WczytajZPlikuNoweTeamy(string NazwaPliku);
@@ -62,7 +68,7 @@ class Database
         void WczytaZPlikuMecze(string NazwaPliku);
 
         /// Zapisanie obecnej bazy do pliku
-        void ZapiszWPlikuBaze(string NazwaPliku);
+        void ZapiszWPlikuBaze(string NazwaPliku, bool wszystko);
 
         /// otwiera zapisana baze danych z pliku(kasuje to co jest obecnie w bazie)
         void OtworzBazeZPliku(string NazwaPliku);
@@ -87,6 +93,26 @@ class Database
 
         /// aktualizuje dane druzyn w oparciu o wynik meczu
         void Aktualizuj(string gospodarz, string gosc, string GoleGospodarza, string GoleGosci);
+
+        int Uruchom();
+
+        float Funkcje(int numerfunkcji, int numerkolumny);
+
+        friend bool operator < (const Team &t1, const Team &t2);
+
+        friend bool operator > (const Team &t1, const Team &t2);
+
+        friend bool operator == (const Team &t1, const Team &t2);
+
+        friend bool operator != (const Team &t1, const Team &t2);
+
+
+        friend ostream& operator << (ostream& out, const Team &t);
+
+        friend ostream& operator >> (ostream& in, const Team &t);
+
+
+
 
 };
 

@@ -160,7 +160,7 @@ void Display::WyswietlNaglowek(bool CzySaJakiesDane)
                 cout << " ";
             WyswietlInstrukcje(2*m);
         }
-}
+    }
 }
 
 void Display::WyswietlRekord(int numer, int Strona, Team team, bool CzyOstatni,bool CzyWyrozniony)
@@ -321,7 +321,7 @@ void Display::WyswietlInstrukcje(int k)
     if(k>30)
         k = 0;
 
-    string instrukcje[] =  {"", "###################################################################",
+    string instrukcje[] =  {"",  "###################################################################",
                                  "                        KLAWISZE FUNKCYJNE                         ",
                                  "###################################################################",
                                  "",
@@ -332,11 +332,11 @@ void Display::WyswietlInstrukcje(int k)
                                  "  USUN REKORD                                              DELETE  ",///
                                  "  EDYTUJ REKORD                                               'E'  ",///
                                  "  ZATWIERDZ                                                 ENTER  ",///
-                                 "  ZACZNIJ ZAZNACZAC KILKA                                   SHIFT  ",
-                                 "  SORTUJ BAZE PO...                                           'S'  ",
-                                 "  CZY BAZA ZAWIERA DRUZYNE...?                                'Z'  ",
+                                 "  ZACZNIJ ZAZNACZAC KILKA                                     'R'  ",///
+                                 "  SORTUJ BAZE PO...                                           'S'  ",///
+                                 "  CZY BAZA ZAWIERA DRUZYNE...?                                'Z'  ",///
                                  "  WYSWIETL REKORDY ZAWIERAJACE...                             'W'  ",
-                                 "  FUNKCJA MATEMATYCZNA                                        'F'  ",
+                                 "  FUNKCJA MATEMATYCZNA                                        'F'  ",///
                                  "",
                                  "  ZAPISZ BAZE DO PLIKU                                        'P'  ",///
                                  "  OTWORZ ISTNIEJACA BAZE Z PLIKU                              'O'  ",///

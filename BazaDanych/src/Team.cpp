@@ -18,6 +18,7 @@ Team::Team(string TeamName, string Country, int SubjectiveRating, int TotalWins,
     OstatniMecz = LastMatch;
     PrzedOstatniMecz = BeforeLastMatch;
     PrzedPrzedOstatniMecz = BeforeBeforeLastMatch;
+    CzyWidoczny = false;
 }
 
 Team::~Team()
@@ -224,6 +225,8 @@ bool Team::CzyPoprawnyStan(string OdpowiedzUzytkownika)
 
     return false;
 }
+
+
 
 
 
