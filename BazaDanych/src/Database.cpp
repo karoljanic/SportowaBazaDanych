@@ -15,10 +15,10 @@ using namespace std;
 int PorownywanaKolumna;
 
 
-Database::Database(int HowManyColumns, string Name,  string TablicaNaglowkow[], bool czyGlowna)
+Database::Database(int Kolumny, string Name,  string TablicaNaglowkow[], bool czyGlowna)
 {
     NazwaBazy = Name;
-    LiczbaKolumn = HowManyColumns;
+    LiczbaKolumn = Kolumny;
     LiczbaRekordow = 0;
     Naglowki =  TablicaNaglowkow;
     Strona = 1;
@@ -78,7 +78,7 @@ void Database::UsunTeam(bool kilka)
 
 }
 
-void Database::EdytujTeam(int nrkolumny, bool dlawszystkich)
+void Database::EdytujTeam(int nrkolumny, bool kilka)
 {
     string nowynapis;
 
@@ -103,7 +103,7 @@ void Database::EdytujTeam(int nrkolumny, bool dlawszystkich)
         {
             cout << "Podaj nowa nazwe kraju: ";
             cin >> nowynapis;
-            if(!dlawszystkich)
+            if(!kilka)
                 (*it).Kraj = nowynapis;
             else
             {
@@ -126,7 +126,7 @@ void Database::EdytujTeam(int nrkolumny, bool dlawszystkich)
             cin >> nowynapis;
             while(!team.CzyPoprawnaOcena(nowynapis))
                 cin >> nowynapis;
-            if(!dlawszystkich)
+            if(!kilka)
                 (*it).Ocena = stoi(nowynapis);
             else
             {
@@ -140,7 +140,7 @@ void Database::EdytujTeam(int nrkolumny, bool dlawszystkich)
             cin >> nowynapis;
             while(!team.CzyPoprawnaLiczba(nowynapis))
                 cin >> nowynapis;
-            if(!dlawszystkich)
+            if(!kilka)
                 (*it).Wygrane = stoi(nowynapis);
             else
             {
@@ -154,7 +154,7 @@ void Database::EdytujTeam(int nrkolumny, bool dlawszystkich)
             cin >> nowynapis;
             while(!team.CzyPoprawnaLiczba(nowynapis))
                 cin >> nowynapis;
-            if(!dlawszystkich)
+            if(!kilka)
                 (*it).Remisy = stoi(nowynapis);
             else
             {
@@ -168,7 +168,7 @@ void Database::EdytujTeam(int nrkolumny, bool dlawszystkich)
             cin >> nowynapis;
             while(!team.CzyPoprawnaLiczba(nowynapis))
                 cin >> nowynapis;
-            if(!dlawszystkich)
+            if(!kilka)
                 (*it).Przegrane = stoi(nowynapis);
             else
             {
@@ -192,7 +192,7 @@ void Database::EdytujTeam(int nrkolumny, bool dlawszystkich)
             {
                 case 1:
                 {
-                    if(!dlawszystkich)
+                    if(!kilka)
                         (*it).OstatniMecz = nowynapis;
                     else
                     {
@@ -202,7 +202,7 @@ void Database::EdytujTeam(int nrkolumny, bool dlawszystkich)
                 }
                 case 2:
                 {
-                    if(!dlawszystkich)
+                    if(!kilka)
                         (*it).PrzedOstatniMecz = nowynapis;
                     else
                     {
@@ -212,7 +212,7 @@ void Database::EdytujTeam(int nrkolumny, bool dlawszystkich)
                 }
                 case 3:
                 {
-                    if(!dlawszystkich)
+                    if(!kilka)
                         (*it).PrzedPrzedOstatniMecz = nowynapis;
                     else
                     {
@@ -1359,15 +1359,6 @@ bool Database::PozycjaGora()
 
 }
 
-void Database::Zakoncz()
-{
-    int dlugosci_kolumn[] = {6,30,30,10,14,14,14,14};
-    Display wys(8, LiczbaRekordow, dlugosci_kolumn,Naglowki);
-    system("cls");
-    wys.KolorNormalny();
-
-}
-
 void Database::Aktualizuj(string gospodarz, string gosc, string GoleGospodarza, string GoleGosci)
 {
     if(CzyIstnieje(gospodarz)!=-1 && CzyIstnieje(gosc)!=-1)
@@ -1511,7 +1502,7 @@ void Database::Aktualizuj(string gospodarz, string gosc, string GoleGospodarza, 
     }
 }
 
-int Database:: Uruchom()
+void Database:: Uruchom()
 {
     char znak = 'x';
     string sciezka = "";
@@ -1576,8 +1567,9 @@ int Database:: Uruchom()
         }
         else if(znak == 'q' || znak == 'Q')
         {
-            Zakoncz();
-            return 0;
+
+            system("cls");
+            return ;
 
         }
         else if((znak == 'e' || znak == 'E') && CzyGlowna)
