@@ -349,13 +349,16 @@ void Database:: Uruchom()
         }
         else if(znak == 'r' || znak == 'R')
         {
-            if(CzyGlowna)
-            {
+
                 if(LiczbaRekordow!=0)
                 {
+                int p = Instrukcja;
                 Instrukcja = 2;
                 ZaznaczKilka();
-                Instrukcja = 1;
+                if(p == 3)
+                    Instrukcja = 3;
+                else
+                    Instrukcja = 1;
                 Wyswietl();
                 }
                 else
@@ -367,7 +370,6 @@ void Database:: Uruchom()
                         znak = getch();
                     Wyswietl();
                 }
-            }
 
         }
         else if(znak == 's' || znak == 'S')
@@ -1099,12 +1101,18 @@ void Database::ZaznaczKilka()
             else if(znak == 83)
             {
                 system("cls");
-                cout << "Czy na pewno chcesz usunac druzyne? Jesli tak, nacisnij ENTER, w przeciwnym wypadku nacisnij inny dowolny klawisz!";
+                cout << "Czy na pewno chcesz usunac druzyne? Jesli tak, nacisnij ENTER, w przeciwnym wypadku nacisnij klawisz 'N'!";
                 char znak = 0;
                 znak = getch();
-                if(znak != 13)
-                    return;
-
+                while(1)
+                {
+                    if(znak == 'n' || znak == 'N')
+                        return;
+                    else if(znak == 13)
+                        break;
+                    else
+                        znak = getch();
+                }
                 Pozycja = Poz1;
                 for(Poz1; Poz1!=(Poz2+1); Poz1++)
                 {
@@ -1215,6 +1223,7 @@ void Database::WybierzZawierajace()
     {
         CzyGlowna = false;
         WarunkiRekordow(k);
+        Instrukcja = 1;
         CzyGlowna = true;
         Wyswietl();
     }
@@ -1969,22 +1978,24 @@ void Database::WarunkiRekordow(int kolumna)
         {
             cout << "Napisz operator('==', '!=') i to do czego chcesz porownywac bilansy z rekordow. Oddziel je spacja(np. == bilans_spotkan)" << endl;
             cin >> op >> klucz;
-            cin >> op >> klucz;
             if(!(( op == "==" || op == "!=" ) && klucz !=""))
             {
                 cout << "Blad danych. Aby kontynuowac wcisnij ENTER!";
                 char znak = 0;
                 while(znak!=13)
                     znak = getch();
-                Wyswietl();
+
             }
             else
             {
+                string bilans;
                 if(op == "==")
                 {
                     for(it; it!=Dane.end(); it++)
                     {
-                        if((*it).Nazwa == klucz)
+                        bilans = (*it).OstatniMecz+"-"+(*it).PrzedOstatniMecz+"-"+(*it).PrzedPrzedOstatniMecz;
+
+                        if(bilans == klucz)
                         {
                             data2.Dane.push_back(*it);
                             data2.LiczbaRekordow++;
@@ -1996,7 +2007,8 @@ void Database::WarunkiRekordow(int kolumna)
                 {
                     for(it; it!=Dane.end(); it++)
                     {
-                        if((*it).Nazwa != klucz)
+                        bilans = (*it).OstatniMecz+"-"+(*it).PrzedOstatniMecz+"-"+(*it).PrzedPrzedOstatniMecz;
+                        if(bilans != klucz)
                         {
                             data2.Dane.push_back(*it);
                             data2.LiczbaRekordow++;
@@ -2005,6 +2017,7 @@ void Database::WarunkiRekordow(int kolumna)
                     }
 
                 }
+                data2.Uruchom();
             }
 
             break;

@@ -29,7 +29,7 @@
 	"Team.h"
 	"Database.h"
 
-1588200847 source:c:\users\user\documents\github\sportowabazadanych\bazadanych\src\database.cpp
+1588206567 source:c:\users\user\documents\github\sportowabazadanych\bazadanych\src\database.cpp
 	<string>
 	<fstream>
 	<iostream>
@@ -40,7 +40,7 @@
 	"Database.h"
 	"Display.h"
 
-1588200857 source:c:\users\user\documents\github\sportowabazadanych\bazadanych\src\display.cpp
+1588206641 source:c:\users\user\documents\github\sportowabazadanych\bazadanych\src\display.cpp
 	<string>
 	<fstream>
 	<iostream>

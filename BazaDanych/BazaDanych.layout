@@ -2,9 +2,14 @@
 <CodeBlocks_layout_file>
 	<FileVersion major="1" minor="0" />
 	<ActiveTarget name="Debug" />
-	<File name="src\Team.cpp" open="1" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="include\Display.h" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="6393" topLine="217" />
+			<Cursor1 position="2149" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="include\Team.h" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="2606" topLine="49" />
 		</Cursor>
 	</File>
 	<File name="main.cpp" open="1" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -12,37 +17,59 @@
 			<Cursor1 position="426" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="include\Database.h" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="1715" topLine="141" />
-		</Cursor>
-	</File>
-	<File name="include\Display.h" open="1" top="1" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="2149" topLine="18" />
-		</Cursor>
-	</File>
-	<File name="include\Team.h" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="1862" topLine="49" />
-		</Cursor>
-	</File>
 	<File name="src\Database.cpp" open="1" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="41651" topLine="1311" />
+			<Cursor1 position="12058" topLine="333" />
 		</Cursor>
 		<Folding>
+			<Collapse line="18" />
 			<Collapse line="35" />
+			<Collapse line="439" />
+			<Collapse line="463" />
+			<Collapse line="501" />
+			<Collapse line="718" />
+			<Collapse line="753" />
+			<Collapse line="844" />
+			<Collapse line="954" />
+			<Collapse line="984" />
+			<Collapse line="1004" />
+			<Collapse line="1019" />
+			<Collapse line="1036" />
+			<Collapse line="1055" />
+			<Collapse line="1079" />
+			<Collapse line="1201" />
+			<Collapse line="1236" />
+			<Collapse line="1289" />
+			<Collapse line="1342" />
+			<Collapse line="1475" />
+			<Collapse line="1493" />
+			<Collapse line="2032" />
+			<Collapse line="2179" />
+			<Collapse line="2196" />
+			<Collapse line="2213" />
+			<Collapse line="2328" />
+			<Collapse line="2443" />
+			<Collapse line="2558" />
 		</Folding>
 	</File>
-	<File name="src\Display.cpp" open="1" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="src\Display.cpp" open="1" top="1" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="18325" topLine="15" />
+			<Cursor1 position="18392" topLine="433" />
 		</Cursor>
 		<Folding>
 			<Collapse line="11" />
 			<Collapse line="28" />
 			<Collapse line="37" />
 		</Folding>
+	</File>
+	<File name="src\Team.cpp" open="1" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="6393" topLine="217" />
+		</Cursor>
+	</File>
+	<File name="include\Database.h" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1715" topLine="141" />
+		</Cursor>
 	</File>
 </CodeBlocks_layout_file>
