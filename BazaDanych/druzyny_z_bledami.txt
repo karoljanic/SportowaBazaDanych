@@ -1,0 +1,8 @@
+FCBarcelona Hiszpania 5 4 5 W L W
+RealMadryt Hiszpania d 16 8 3 L W L
+Hiszpania 4 13 8 6 D W W
+RealSociedad Hiszpania 3 14 4 9 5 L W
+GetafeCF Hiszpania 3 7 7 D W L
+AtleticoMadryt Hiszpania 4 11 5 12 4 D D W
+Valencia Hiszpania t 11 9 7 D W L W
+Poprawne Dane 5 999 999 999 W W W

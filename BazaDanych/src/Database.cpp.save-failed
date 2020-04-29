@@ -14,7 +14,7 @@ using namespace std;
 
 int PorownywanaKolumna;
 
-
+///------------------------------------------ *** BEGIN *** KONSTRUKTOR ***BEGIN*** ------------------------------------------///
 Database::Database(int Kolumny, string Name,  string TablicaNaglowkow[], bool czyGlowna)
 {
     NazwaBazy = Name;
@@ -24,14 +24,416 @@ Database::Database(int Kolumny, string Name,  string TablicaNaglowkow[], bool cz
     Strona = 1;
     Pozycja = 1;
     CzyGlowna = czyGlowna;
+    Instrukcja = 1;
 
 }
+///----------------------------------------- *** END *** PUBLIC KONSTRUKTOR ***END*** ---------------------------------------------///
 
+
+
+///--------------------------------------- *** BEGIN *** PUBLIC DESTRUKTOR ***BEGIN*** --------------------------------------------///
 Database::~Database()
 {
 
 }
+///------------------------------------------ *** END *** PUBLIC DESTRUKTOR ***END*** ---------------------------------------------///
 
+
+
+///---------------------------------------- *** BEGIN *** PUBLIC INTERFEJS ***BEGIN*** --------------------------------------------///
+void Database:: Uruchom()
+{
+    char znak = 'x';
+    string sciezka = "";
+    Wyswietl();
+
+    while(true)
+    {
+        znak = getch();
+        if(znak == -32)
+        {
+            znak = getch();
+
+            if(znak == 80)
+            {
+                if(PozycjaDol())
+                    Wyswietl();
+            }
+            else if(znak == 72)
+            {
+                if(PozycjaGora())
+                    Wyswietl();
+            }
+            else if(znak == 82)
+            {
+                if(CzyGlowna)
+                {
+                    system("cls");
+                    DodajTeam();
+                    Wyswietl();
+                }
+
+            }
+            else if(znak == 83)
+            {
+                if(CzyGlowna)
+                {
+                    if(LiczbaRekordow == 0)
+                    {
+                    system("cls");
+                    cout << "Nie ma czego usunac! Aby kontynuowac wcisnij ENTER!";
+                    while(znak!=13)
+                        znak = getch();
+                    }
+                    else
+                    {
+                        system("cls");
+                        UsunTeam(false);
+                    }
+                    Wyswietl();
+                }
+            }
+        }
+        else if(znak == 'm' || znak=='M')
+        {
+         if(NastepnaStrona())
+            Wyswietl();
+        }
+        else if(znak == 'n' || znak == 'N')
+        {
+            if(PoprzedniaStrona())
+                Wyswietl();
+        }
+        else if(znak == 'q' || znak == 'Q')
+        {
+
+            system("cls");
+            return ;
+
+        }
+        else if((znak == 'e' || znak == 'E') && CzyGlowna)
+        {
+            system("cls");
+            znak = 0;
+            if(LiczbaRekordow == 0)
+            {
+                cout << "Nie mozesz edytowac nieistniejach rekordow! Aby kontynuowac wcisnij ENTER!";
+                char znak = 0;
+                while(znak!=13)
+                    znak = getch();
+                Wyswietl();
+                continue;
+            }
+            cout << "Ktora kolumne edytowac?<1,7>" << endl;
+            string k= "xyz";
+            Team t;
+            while(!t.CzyPoprawnaLiczba(k))
+                cin >> k;
+            if(stoi(k)>0 && stoi(k)<8)
+            {
+               EdytujTeam(stoi(k),false);
+               k = -1;
+            }
+            else
+            {
+                cout << "Niepoprawny numer kolumny! Aby kontynuowac wcisnij ENTER!";
+                char znak = 0;
+                while(znak != 13)
+                    znak = getch();
+            }
+            Wyswietl();
+        }
+        else if(znak == 'j' || znak == 'J')
+        {
+            if(CzyGlowna)
+            {
+                system("cls");
+                sciezka = "";
+                cout << "Wprowadz sciezke dostepu do pliku z danymi lub nazwe pliku jesli znajduje sie on w folderze programu(nazwa_pliku.txt) ";
+                while(sciezka=="")
+                    cin >> sciezka;
+
+                WczytajZPlikuNoweTeamy(sciezka);
+                Wyswietl();
+            }
+
+        }
+        else if(znak == 'o' || znak == 'O')
+        {
+            if(CzyGlowna)
+            {
+                system("cls");
+                sciezka = "";
+                cout << "Wprowadz sciezke dostepu do pliku z danymi lub nazwe pliku jesli znajduje sie on w folderze programu(nazwa_pliku.txt) ";
+                while(sciezka=="")
+                    cin >> sciezka;
+                OtworzBazeZPliku(sciezka);
+                Wyswietl();
+            }
+
+        }
+        else if(znak == 'p' || znak == 'P')
+        {
+            system("cls");
+            string nazwa = "";
+            cout << "Wprowadz nazwe wyjsciowego pliku: ";
+            while(nazwa == "")
+                cin >> nazwa;
+            ZapiszWPlikuBaze(nazwa, true);
+            Wyswietl();
+        }
+        else if(znak == 'd' || znak == 'D')
+        {
+            if(CzyGlowna)
+            {
+                system("cls");
+                DodajMecz();
+                Wyswietl();
+            }
+
+        }
+        else if(znak == 'a' || znak == 'A')
+        {
+            if(CzyGlowna)
+            {
+                system("cls");
+                sciezka = "";
+                cout << "Wprowadz sciezke dostepu do pliku z danymi lub nazwe pliku jesli znajduje sie on w folderze programu(nazwa_pliku.txt) ";
+                while(sciezka=="")
+                    cin >> sciezka;
+                system("cls");
+                WczytaZPlikuMecze(sciezka);
+                Wyswietl();
+            }
+
+        }
+        else if(znak == 'z' || znak == 'Z')
+        {
+            system("cls");
+            string nazwa;
+            cout << "Jakiej druzyny szukasz?";
+            cin >> nazwa;
+            if(CzyIstnieje(nazwa)!=-1)
+                cout << endl << "Druzyna " << nazwa << " znajduje sie w bazie danych na pozycji " << CzyIstnieje(nazwa);
+            else
+                cout << endl << "Druzyna " << nazwa << " nie znajduje sie w bazie danych!";
+            cout << endl << "Aby kontynuowac wcisnij ENTER!";
+            char znak = 0;
+            while(znak!=13)
+                znak = getch();
+
+            Wyswietl();
+        }
+        else if(znak == 'f' || znak=='F')
+        {
+            int poz = 0;
+            znak = 0;
+
+            while(znak!=13)
+            {
+                system("cls");
+                cout << "Wybierz funkcje matematycznej ktora chcesz uzyc." << endl << "Pamietaj, ze funkcje matematyczne sa dostepne tylko dla danych liczbowych!" << endl << endl;
+                string funkcje[] = {"Maximum", "Minimum", " Suma ", "Srednia", "Mediana"};
+
+                for(int i = 0; i<5; i++)
+                {
+                    if(i == poz)
+                        cout << "                         ==> ";
+                    else
+                        cout << "                             ";
+                   cout << funkcje[i];
+                   if(i == poz)
+                      cout << " <==";
+
+                    cout << endl;
+                }
+                znak = getch();
+                if(znak == -32)
+                {
+                    znak = getch();
+
+                    if(znak == 80)
+                    {
+                        poz++;
+                        if(poz>4)
+                            poz = 4;
+                    }
+
+                    else if(znak == 72)
+                    {
+                        poz--;
+                        if(poz<0)
+                            poz = 0;
+                    }
+                }
+
+            }
+            cout << endl;
+            string ktora;
+            Team t;
+            switch(poz)
+            {
+                case 0:
+                {
+                    ktora = -1;
+                    cout << "W ktorej kolumnie chcesz znalezc maksimum?<3,6>" << endl;
+                    while(!(t.CzyPoprawnaLiczba(ktora) && stoi(ktora)>2 && stoi(ktora)<7))
+                        cin >> ktora;
+                    cout << "Maksimum kolumny " << ktora << ": ";
+                    if(Funkcje(1,stoi(ktora))!=-1)
+                        cout << Funkcje(1,stoi(ktora));
+                    else
+                        cout << "Brak danych!";
+                    break;
+                }
+                case 1:
+                {
+                    ktora = -1;
+                    cout << "W ktorej kolumnie chcesz znalezc minimum?<3,6>" << endl;
+                    while(!(t.CzyPoprawnaLiczba(ktora) && stoi(ktora)>2 && stoi(ktora)<7))
+                        cin >> ktora;
+                    cout << "Minimum kolumny " << ktora << ": ";
+                    if(Funkcje(2,stoi(ktora))!=-1)
+                        cout << Funkcje(2,stoi(ktora));
+                    else
+                        cout << "Brak danych!";
+                    break;
+                }
+                case 2:
+                {
+                    ktora = -1;
+                    cout << "Ktora kolumne chcesz zsumowac?<3,6>" << endl;
+                    while(!(t.CzyPoprawnaLiczba(ktora) && stoi(ktora)>2 && stoi(ktora)<7))
+                        cin >> ktora;
+                    cout << "Suma kolumny " << ktora << ": ";
+                    if(Funkcje(3,stoi(ktora))!=-1)
+                        cout << Funkcje(3,stoi(ktora));
+                    else
+                        cout << "Brak danych!";
+                    break;
+                }
+                case 3:
+                {
+                    ktora = -1;
+                    cout << "Srednia ktorej kolumny chcesz obliczyc?<3,6>" << endl;
+                    while(!(t.CzyPoprawnaLiczba(ktora) && stoi(ktora)>2 && stoi(ktora)<7))
+                        cin >> ktora;
+                    cout << "Srednia kolumny " << ktora << ": ";
+                    if(Funkcje(4,stoi(ktora))!=-1)
+                        cout << Funkcje(4,stoi(ktora));
+                    else
+                        cout << "Brak danych!";
+                    break;
+                }
+                case 4:
+                {
+                    ktora = -1;
+                    cout << "Mediane ktorej kolumny chcesz wyznaczyc?<3,6>" << endl;
+                    while(!(t.CzyPoprawnaLiczba(ktora) && stoi(ktora)>2 && stoi(ktora)<7))
+                        cin >> ktora;
+                    cout << "Mediana kolumny " << ktora << ": ";
+                    if(Funkcje(5,stoi(ktora))!=-1)
+                        cout << Funkcje(5,stoi(ktora));
+                    else
+                        cout << "Brak danych!";
+                    break;
+                }
+            }
+            cout << endl << endl << "Aby kontynuowac nacisnij ENTER!";
+            znak = 0;
+            while(znak!=13)
+                znak = getch();
+
+            Wyswietl();
+
+        }
+        else if(znak == 'r' || znak == 'R')
+        {
+            if(CzyGlowna)
+            {
+                if(LiczbaRekordow!=0)
+                {
+                Instrukcja = 2;
+                ZaznaczKilka();
+                Instrukcja = 1;
+                Wyswietl();
+                }
+                else
+                {
+                    system("cls");
+                    cout << "Brak danych! Aby kontynuowac wcisnij ENTER!";
+                    znak = 0;
+                    while(znak!=13)
+                        znak = getch();
+                    Wyswietl();
+                }
+            }
+
+        }
+        else if(znak == 's' || znak == 'S')
+        {
+            string ktora, ros = "";
+            Team t;
+            if(LiczbaRekordow==0)
+            {
+                system("cls");
+                cout << "Brak danych! Aby kontynuowac wcisnij ENTER!";
+                znak = 0;
+                while(znak!=13)
+                    znak = getch();
+                Wyswietl();
+            }
+            else
+            {
+                system("cls");
+                cout << "Po ktorej kolumnie posortowac dane?<1,7> ";
+                ktora = -1;
+                while(!(t.CzyPoprawnaLiczba(ktora) && stoi(ktora)>0 && stoi(ktora)<8))
+                    cin >> ktora;
+
+                cout << endl << "Czy rosnaco?(t/n)";
+                while(ros!="t" && ros!="n")
+                    cin >> ros;
+
+                if(ros == "t")
+                    SortujBazePo(stoi(ktora), true);
+                else
+                    SortujBazePo(stoi(ktora), false);
+
+            }
+
+        }
+        if(znak == 'w' || znak == 'W')
+        {
+            if(LiczbaRekordow==0)
+            {
+                system("cls");
+                cout << "Brak danych! Aby kontynuowac wcisnij ENTER!";
+                znak = 0;
+                while(znak!=13)
+                    znak = getch();
+                Wyswietl();
+            }
+            else
+            {
+                if(CzyGlowna)
+                {
+                   Instrukcja = 3;
+                   WybierzZawierajace();
+                   Instrukcja = 1;
+                }
+
+            }
+
+        }
+
+    }
+}
+///------------------------------------------ *** END *** PUBLIC INTERFEJS ***END*** ----------------------------------------------///
+
+
+
+///-------------------------------------- *** BEGIN *** PRIVATE DODAJTEAM() ***BEGIN*** ---------------------------------------///
 void Database::DodajTeam()
 {
     Team team;
@@ -51,20 +453,31 @@ void Database::DodajTeam()
        znak = getch();
 
 }
+///----------------------------------------- *** END *** PRIVATE DODAJTEAM() ***END*** ----------------------------------------///
 
+
+
+///--------------------------------------- *** BEGIN *** PRIVATE USUNTEAM() ***BEGIN*** ---------------------------------------///
 void Database::UsunTeam(bool kilka)
 {
     if(!kilka)
     {
-        cout << "Czy na pewno chcesz usunac druzyne? Jesli tak, nacisnij ENTER, w przeciwnym wypadku nacisnij inny dowolny klawisz!";
+        cout << "Czy na pewno chcesz usunac druzyne? Jesli tak, nacisnij ENTER, w przeciwnym wypadku nacisnij klawisz 'N'!";
         char znak = 0;
         znak = getch();
-        if(znak != 13)
-            return;
+        while(1)
+        {
+            if(znak == 'n' || znak == 'N')
+                return;
+            else if(znak == 13)
+                break;
+            else
+                znak = getch();
+        }
+
         if(LiczbaRekordow==0)
             return;
     }
-
 
     string name;
     list<Team>::iterator it = Dane.begin();
@@ -72,12 +485,17 @@ void Database::UsunTeam(bool kilka)
         it++;
     Dane.erase(it);
     LiczbaRekordow--;
-    Pozycja--;
+    PozycjaGora();
+    /*Pozycja--;
     if(Pozycja == 0)
-        Pozycja = 1;
+        Pozycja = 1;*/
 
 }
+///----------------------------------------- *** END *** PRIVATE USUNTEAM() ***END*** -----------------------------------------///
 
+
+
+///------------------------------------- *** BEGIN *** PRIVATE EDYTUJTEAM() ***BEGIN*** ---------------------------------------///
 void Database::EdytujTeam(int nrkolumny, bool kilka)
 {
     string nowynapis;
@@ -130,6 +548,15 @@ void Database::EdytujTeam(int nrkolumny, bool kilka)
                 (*it).Ocena = stoi(nowynapis);
             else
             {
+                Pozycja = Poz1;
+                it = Dane.begin();
+                for(int i = 1; i<Pozycja; i++)
+                    it++;
+                for(Pozycja; Pozycja!=(Poz2+1); Pozycja++)
+                {
+                    (*it).Ocena = stoi(nowynapis);
+                    it++;
+                }
 
             }
             break;
@@ -144,6 +571,15 @@ void Database::EdytujTeam(int nrkolumny, bool kilka)
                 (*it).Wygrane = stoi(nowynapis);
             else
             {
+                Pozycja = Poz1;
+                it = Dane.begin();
+                for(int i = 1; i<Pozycja; i++)
+                    it++;
+                for(Pozycja; Pozycja!=(Poz2+1); Pozycja++)
+                {
+                    (*it).Wygrane = stoi(nowynapis);
+                    it++;
+                }
 
             }
             break;
@@ -158,6 +594,15 @@ void Database::EdytujTeam(int nrkolumny, bool kilka)
                 (*it).Remisy = stoi(nowynapis);
             else
             {
+                Pozycja = Poz1;
+                it = Dane.begin();
+                for(int i = 1; i<Pozycja; i++)
+                    it++;
+                for(Pozycja; Pozycja!=(Poz2+1); Pozycja++)
+                {
+                    (*it).Remisy = stoi(nowynapis);
+                    it++;
+                }
 
             }
             break;
@@ -172,6 +617,15 @@ void Database::EdytujTeam(int nrkolumny, bool kilka)
                 (*it).Przegrane = stoi(nowynapis);
             else
             {
+                Pozycja = Poz1;
+                it = Dane.begin();
+                for(int i = 1; i<Pozycja; i++)
+                    it++;
+                for(Pozycja; Pozycja!=(Poz2+1); Pozycja++)
+                {
+                    (*it).Przegrane = stoi(nowynapis);
+                    it++;
+                }
 
             }
             break;
@@ -179,9 +633,11 @@ void Database::EdytujTeam(int nrkolumny, bool kilka)
         case 7:
         {
             cout << "Rezultat ktorego spotkania chcesz poprawic?(ostatni-1, przedostatni-2, przed przedostatni-3): ";
-            int cyfra = 0;
-            while(!(cyfra<4 && cyfra>0))
-                cin >> cyfra;
+            string dana = "x123";
+            while(!(CzyLiczbaNaturalna(dana)>0 && CzyLiczbaNaturalna(dana)<4))
+                cin >> dana;
+            int cyfra = stoi(dana);
+
             cout << "Jakim rezultatem zakonczylo sie te spotkanie?(W,D,L,-)";
             nowynapis = "ZnalazlesV2";
             cin>> nowynapis;
@@ -196,6 +652,15 @@ void Database::EdytujTeam(int nrkolumny, bool kilka)
                         (*it).OstatniMecz = nowynapis;
                     else
                     {
+                        Pozycja = Poz1;
+                        it = Dane.begin();
+                        for(int i = 1; i<Pozycja; i++)
+                            it++;
+                        for(Pozycja; Pozycja!=(Poz2+1); Pozycja++)
+                        {
+                            (*it).OstatniMecz = nowynapis;
+                            it++;
+                        }
 
                     }
                     break;
@@ -206,7 +671,15 @@ void Database::EdytujTeam(int nrkolumny, bool kilka)
                         (*it).PrzedOstatniMecz = nowynapis;
                     else
                     {
-
+                        Pozycja = Poz1;
+                        it = Dane.begin();
+                        for(int i = 1; i<Pozycja; i++)
+                            it++;
+                        for(Pozycja; Pozycja!=(Poz2+1); Pozycja++)
+                        {
+                            (*it).PrzedOstatniMecz = nowynapis;
+                            it++;
+                        }
                     }
                     break;
                 }
@@ -216,6 +689,15 @@ void Database::EdytujTeam(int nrkolumny, bool kilka)
                         (*it).PrzedPrzedOstatniMecz = nowynapis;
                     else
                     {
+                        Pozycja = Poz1;
+                        it = Dane.begin();
+                        for(int i = 1; i<Pozycja; i++)
+                            it++;
+                        for(Pozycja; Pozycja!=(Poz2+1); Pozycja++)
+                        {
+                            (*it).PrzedPrzedOstatniMecz = nowynapis;
+                            it++;
+                        }
 
                     }
                     break;
@@ -226,7 +708,348 @@ void Database::EdytujTeam(int nrkolumny, bool kilka)
         }
     }
 }
+///---------------------------------------- *** END *** PRIVATE EDYTUJTEAM() ***END*** ----------------------------------------///
 
+
+
+///------------------------------------- *** BEGIN *** PRIVATE DODAJMECZ() ***BEGIN*** ----------------------------------------///
+void Database::DodajMecz()
+{
+    string gospodarz = "", gosc = "";
+    string GoleGosci, GoleGospodarza;
+
+    Team t;
+
+    cout << "Podaj druzyne gospodarza: ";
+    gospodarz = "";
+    while(gospodarz=="")
+        cin >> gospodarz;
+
+    cout << "Podaj druzyne gosci: ";
+    gosc = "";
+    while(gosc=="")
+        cin >> gosc;
+
+    cout << "Podaj liczbe goli zdobytych przez gospodarza: ";
+    GoleGospodarza = "-1";
+    while(!t.CzyPoprawnaLiczba(GoleGospodarza))
+        cin>>GoleGospodarza;
+
+    cout << "Podaj liczbe goli zdobytych przez gosci: ";
+    GoleGosci = "-1";
+    while(!t.CzyPoprawnaLiczba(GoleGosci))
+        cin>>GoleGosci;
+
+    Aktualizuj(gospodarz, gosc, GoleGospodarza, GoleGosci);
+
+}
+///---------------------------------------- *** END *** PRIVATE DODAJMECZ() ***END*** -----------------------------------------///
+
+
+
+///------------------------------- *** BEGIN *** PRIVATE WCZYTAJZPLIKUNOWETEAMY() ***BEGIN*** ---------------------------------///
+void Database::WczytajZPlikuNoweTeamy(string NazwaPliku)
+{
+    fstream dane(NazwaPliku, ios::in);
+    string linia;
+    Team team;
+    int i = 1;
+
+    try
+    {
+        if(!dane.is_open())
+            cout << "Plik nie zostal odnaleziony...";
+        else
+        {
+           cout << "Plik otwarto poprawnie..." << endl << endl;
+
+           while(!dane.eof())
+           {
+                cout << "Proba dodania " << i << " druzyny: ";
+                getline(dane, linia);
+                if(linia=="")
+                    cout << "Pusta linia" << endl;
+                else
+                {
+                   team.WgrajTeamZPliku(linia);
+                   if(CzyIstnieje(team.Nazwa) != -1)
+                   {
+                      cout << "BLAD! Druzyna o podanej nazwie (" << team.Nazwa << ") istnieje!" << endl;
+                      continue;
+                   }
+
+                   else if(team.Ocena == -1)
+                   {
+                       cout << "BLAD! Nieprawidlowa ocena druzyny!" << endl;
+                       continue;
+                   }
+
+                   else if(team.Wygrane == -1)
+                   {
+                       cout << "BLAD! Nieprawidlowa liczba wygranych spotkan druzyny!" << endl;
+                       continue;
+                   }
+
+                   else if(team.Remisy == -1)
+                   {
+                       cout << "BLAD! Nieprawidlowa liczba remisowych spotkan druzyny!" << endl;
+                       continue;
+                   }
+
+                   else if(team.Przegrane == -1)
+                   {
+                     cout << "BLAD! Nieprawidlowa liczba przegranych spotkan druzyny!" << endl;
+                     continue;
+                   }
+
+                   else if(team.OstatniMecz == "-1" || team.PrzedOstatniMecz == "-1" || team.PrzedPrzedOstatniMecz == "-1")
+                   {
+                      cout << "BLAD! Nieprawidlowy stan jednego z zakonczonych meczow druzyny!" << endl;
+                      continue;
+                   }
+
+                   else
+                   {
+                       cout << "POWODZENIE!";
+                       team.WypiszTeam();
+                       Dane.push_back(team);
+                       LiczbaRekordow++;
+                   }
+                   i++;
+                   cout << endl;
+                }
+           }
+           dane.close();
+
+        }
+    }
+    catch(...)
+    {
+        cout << "BLAD! Nieprawidlowe dane w pliku" << endl;
+    }
+
+    cout <<  endl << "Aby kontynuowac wcisnij ENTER!";
+    char znak;
+    znak = getch();
+    while(znak != 13)
+        znak = getch();
+}
+///--------------------------------- *** END *** PRIVATE WCZYTAJZPLIKUNOWETEAMY() ***END*** -----------------------------------///
+
+
+
+///-------------------------------- *** BEGIN *** PRIVATE WCZYTAJZPLIKUMECZE() ***BEGIN*** -----------------------------------///
+void Database::WczytaZPlikuMecze(string NazwaPliku)
+{
+    fstream dane(NazwaPliku, ios::in);
+    string LiniaDanych, dana;
+    string gospodarz="", gosc="";
+    string GoleGospodarza="", GoleGosci="";
+    int i;
+    char znak;
+
+    try
+    {
+        if(!dane.is_open())
+        {
+            cout << "Plik nie zostal odnaleziony..." << endl << "Aby kontynuowac wcisnij ENTER!";
+            znak = 0;
+            while(znak!=13)
+                znak = getch();
+        }
+
+        else
+        {
+            cout << "Plik otwarto poprawnie..." << endl << endl;
+
+            while(!dane.eof())
+            {
+                getline(dane, LiniaDanych);
+                if(LiniaDanych=="")
+                    cout << "Pusta linia" << endl;
+                else
+                {
+                    i = 0;
+                    dana = "";
+                    while(char(LiniaDanych[i]) != ' ' && char(LiniaDanych[i]) != 0)
+                    {
+                        dana += LiniaDanych[i];
+                        i++;
+                    }
+                    gospodarz = dana;
+
+                    i++;
+                    dana = "";
+                    while(char(LiniaDanych[i]) != ' ' && char(LiniaDanych[i]) != 0)
+                    {
+                        dana += LiniaDanych[i];
+                        i++;
+                    }
+                    gosc = dana;
+
+                    i++;
+                    dana = "";
+                    while(char(LiniaDanych[i]) != ' ' && char(LiniaDanych[i]) != 0)
+                    {
+                        dana += LiniaDanych[i];
+                        i++;
+                    }
+                    GoleGospodarza = dana;
+
+                    i++;
+                    dana = "";
+                    while(char(LiniaDanych[i]) != ' ' && char(LiniaDanych[i]) != 0)
+                    {
+                        dana += LiniaDanych[i];
+                        i++;
+                    }
+                    GoleGosci = dana;
+
+                    Team t;
+
+                    if(!t.CzyPoprawnaLiczba(GoleGospodarza))
+                        cout << "Niepoprawne dane w pliku!" << endl;
+                    else if(GoleGospodarza == "")
+                        cout << "Niepoprawne dane w pliku!" << endl;
+                    else if(!t.CzyPoprawnaLiczba(GoleGosci))
+                        cout << "Niepoprawne dane w pliku!" << endl;
+                    else if(GoleGosci == "")
+                        cout << "Niepoprawne dane w pliku!" << endl;
+                    else
+                    {
+                        Aktualizuj(gospodarz, gosc, GoleGospodarza, GoleGosci);
+                    }
+                }
+
+            }
+            cout << endl << "Aby kontynuowac wcisnij ENTER!";
+            znak = 0;
+            while(znak!=13)
+                znak = getch();
+
+        }
+    }
+    catch(...)
+    {
+        cout << "BLAD! Nieprawidlowe dane w pliku" << endl;
+    }
+}
+///---------------------------------- *** END *** PRIVATE WCZYTAJZPLIKUMECZE() ***END*** -------------------------------------///
+
+
+
+///--------------------------------- *** BEGIN *** PRIVATE OTWORZBAZEZPLIKU() ***BEGIN*** ------------------------------------///
+void Database::OtworzBazeZPliku(string NazwaPliku)
+{
+    Czysc();
+    WczytajZPlikuNoweTeamy(NazwaPliku);
+}
+///----------------------------------- *** END *** PRIVATE OTWORZBAZEZPLIKU() ***END*** --------------------------------------///
+
+
+
+///--------------------------------- *** BEGIN *** PRIVATE ZAPISZWPLIKUBAZE() ***BEGIN*** ------------------------------------///
+void Database::ZapiszWPlikuBaze(string NazwaPliku, bool wszystko)
+{
+    fstream WynikowyPlik(NazwaPliku+".txt", ios::out);
+    if(wszystko)
+    {
+        list<Team>::iterator it = Dane.begin();
+        for(it; it!= Dane.end(); it++)
+            WynikowyPlik << (*it).Nazwa << " " << (*it).Kraj << " " << (*it).Ocena << " " << (*it).Wygrane << " " << (*it).Remisy << " " << (*it).Przegrane << " " << (*it).OstatniMecz << " " << (*it).PrzedOstatniMecz << " " << (*it).PrzedPrzedOstatniMecz << endl;
+    }
+    else
+    {
+        Pozycja = Poz1;
+        list<Team>::iterator it = Dane.begin();
+        for(int i = 0; i<Pozycja; i++)
+            it++;
+        it--;
+        for(Pozycja; Pozycja!=(Poz2+1);Pozycja++)
+        {
+            WynikowyPlik << (*it).Nazwa << " " << (*it).Kraj << " " << (*it).Ocena << " " << (*it).Wygrane << " " << (*it).Remisy << " " << (*it).Przegrane << " " << (*it).OstatniMecz << " " << (*it).PrzedOstatniMecz << " " << (*it).PrzedPrzedOstatniMecz << endl;
+            it++;
+        }
+    }
+
+    WynikowyPlik.close();
+}
+///----------------------------------- *** END *** PRIVATE ZAPISZWPLIKUBAZE() ***END*** --------------------------------------///
+
+
+
+///---------------------------------- *** BEGIN *** PRIVATE NASTEPNASTRONA() ***BEGIN*** -------------------------------------///
+bool Database::NastepnaStrona()
+{
+    int strony = LiczbaRekordow/20;
+    if(!(LiczbaRekordow%20))
+        strony--;
+    strony++;
+
+    if(Strona<strony)
+    {
+        Strona++;
+        Pozycja = (Strona-1)*20+1;
+        return true;
+    }
+    return false;
+}
+///------------------------------------ *** END *** PRIVATE NASTEPNASTRONA() ***END*** ---------------------------------------///
+
+
+
+///---------------------------------- *** BEGIN *** PRIVATE POPRZEDNIASTRONA() ***BEGIN*** -------------------------------------///
+bool Database::PoprzedniaStrona()
+{
+    if(Strona>1)
+    {
+        Strona--;
+        Pozycja = Strona*20;
+        return true;
+    }
+    return false;
+}
+///------------------------------------ *** END *** PRIVATE POPRZEDNIASTRONA() ***END*** ---------------------------------------///
+
+
+
+///------------------------------------- *** BEGIN *** PRIVATE POZYCJADOL() ***BEGIN*** ----------------------------------------///
+bool Database::PozycjaDol()
+{
+    if(Pozycja<LiczbaRekordow)
+    {
+        if(!(Pozycja%20))
+           Strona++;
+        Pozycja++;
+        Poz2++;
+        return true;
+    }
+    return false;
+}
+///--------------------------------------- *** END *** PRIVATE POZYCJADOL() ***END*** ------------------------------------------///
+
+
+
+///------------------------------------- *** BEGIN *** PRIVATE POZYCJAGORA() ***BEGIN*** ----------------------------------------///
+bool Database::PozycjaGora()
+{
+    if(Pozycja>1)
+    {
+        if(!((Pozycja-1)%20))
+            Strona--;
+        Pozycja--;
+        Poz2--;
+        if(Poz2<Poz1)
+            Poz2++;
+        return true;
+    }
+    return false;
+}
+///--------------------------------------- *** END *** PRIVATE POZYCJAGORA() ***END*** ------------------------------------------///
+
+
+
+///------------------------------------- *** BEGIN *** PRIVATE SORTUJBAZEPO() ***BEGIN*** ----------------------------------------///
 void Database::SortujBazePo(int kolumna, bool rosnaco)
 {
     PorownywanaKolumna = kolumna;
@@ -246,7 +1069,11 @@ void Database::SortujBazePo(int kolumna, bool rosnaco)
         znak = getch();
     Wyswietl();
 }
+///--------------------------------------- *** END *** PRIVATE SORTUJBAZEPO() ***END*** ------------------------------------------///
 
+
+
+///------------------------------------- *** BEGIN *** PRIVATE ZAZNACZKILKA() ***BEGIN*** ----------------------------------------///
 void Database::ZaznaczKilka()
 {
 
@@ -358,21 +1185,11 @@ void Database::ZaznaczKilka()
     Strona = 1;
 
 }
+///--------------------------------------- *** END *** PRIVATE ZAZNACZKILKA() ***END*** ------------------------------------------///
 
-int Database::CzyIstnieje(string druzyna)
-{
-    list<Team>::iterator it = Dane.begin();
 
-    int k = 0;
-    for(it; it != Dane.end(); it++)
-    {
-        k++;
-        if((*it).Nazwa == druzyna)
-            return k;
-    }
-    return -1;
-}
 
+///---------------------------------- *** BEGIN *** PRIVATE WYBIERZZAWIERAJACE() ***BEGIN*** -------------------------------------///
 void Database::WybierzZawierajace()
 {
     system("cls");
@@ -401,17 +1218,275 @@ void Database::WybierzZawierajace()
         CzyGlowna = true;
         Wyswietl();
     }
+}
+///------------------------------------ *** END *** PRIVATE WYBIERZZAWIERAJACE() ***END*** ---------------------------------------///
 
 
+
+///--------------------------------------- *** BEGIN *** PRIVATE WYSWIETL() ***BEGIN*** ------------------------------------------///
+void Database::Wyswietl()
+{
+    system("cls");
+    if(CzyGlowna)
+        cout << "                                                 ...Zwykly tryb bazy danych... " << endl;
+    else
+        cout << "                                                 ...Baza z rekordami zawierajacymi..." << endl;
+
+    int dlugosci_kolumn[] = {6,30,30,10,14,14,14,14};
+    Display wyswietlacz(8, LiczbaRekordow, dlugosci_kolumn,Naglowki);
+
+    wyswietlacz.WyswietlTytulBazy(NazwaBazy);
+    wyswietlacz.WyswietlNaglowek(LiczbaRekordow);
+
+    LiczbaStron = LiczbaRekordow/20;
+    if(!(LiczbaRekordow%20))
+        LiczbaStron--;
+    LiczbaStron++;
+
+    list<Team>::iterator it = Dane.begin();
+    int i = 1;
+    int n = 20*(Strona-1);
+    i+=n;
+
+    for(int p = 0; p<n; p++)
+        it++;
+    if(LiczbaRekordow)
+    {
+        for(int j = 0; j<20; j++)
+        {
+            if(LiczbaRekordow == i || i%20 == 0)
+                wyswietlacz.WyswietlRekord(i, Strona, (*it),true, i == Pozycja, Instrukcja);
+            else
+                wyswietlacz.WyswietlRekord(i, Strona, (*it),false, i == Pozycja, Instrukcja);
+
+            i++;
+            it++;
+            if(it == Dane.end())
+                break;
+        }
+    }
+
+
+    wyswietlacz.WyswietlNumerStrony(Strona);
+    wyswietlacz.KolorNormalny();
 
 
 }
+///----------------------------------------- *** END *** PRIVATE WYSWIETL() ***END*** --------------------------------------------///
 
+
+
+///--------------------------------------- *** BEGIN *** PRIVATE WYSWIETL2() ***BEGIN*** -----------------------------------------///
+void Database::Wyswietl2()
+{
+    system("cls");
+    if(CzyGlowna)
+        cout << "                                                   ...Tryb zaznaczania kilku danych... " << endl;
+    else
+        cout << "                          ...Tryb zaznaczania kilku danych(Tabela rekordow zawierajacych)... " << endl;
+
+    int dlugosci_kolumn[] = {6,30,30,10,14,14,14,14};
+    Display wyswietlacz(8, LiczbaRekordow, dlugosci_kolumn,Naglowki);
+
+    wyswietlacz.WyswietlTytulBazy(NazwaBazy);
+    wyswietlacz.WyswietlNaglowek(LiczbaRekordow);
+
+    LiczbaStron = LiczbaRekordow/20;
+    if(!(LiczbaRekordow%20))
+        LiczbaStron--;
+    LiczbaStron++;
+
+    list<Team>::iterator it = Dane.begin();
+    int i = 1;
+    int n = 20*(Strona-1);
+    i+=n;
+
+    for(int p = 0; p<n; p++)
+        it++;
+    if(LiczbaRekordow)
+    {
+        for(int j = 0; j<20; j++)
+        {
+            if(LiczbaRekordow == i || i%20 == 0)
+                wyswietlacz.WyswietlRekord(i, Strona, (*it),true, (i>=Poz1 && i<=Poz2), Instrukcja);
+            else
+                wyswietlacz.WyswietlRekord(i, Strona, (*it),false, (i>=Poz1 && i<=Poz2), Instrukcja);
+
+            i++;
+            it++;
+            if(it == Dane.end())
+                break;
+        }
+    }
+
+
+    wyswietlacz.WyswietlNumerStrony(Strona);
+    wyswietlacz.KolorNormalny();
+
+
+}
+///----------------------------------------- *** END *** PRIVATE WYSWIETL2() ***END*** -------------------------------------------///
+
+
+
+///--------------------------------------- *** BEGIN *** PRIVATE FUNKCJE() ***BEGIN*** -------------------------------------------///
+float Database::Funkcje(int numerfunkcji, int numerkolumny) ///numery funkcji:1-max, 2-min, 3-suma, 4-srednia, 5-mediana
+{
+    float suma = 0;
+    int maks = 0;
+    int mini = 0;
+    list<int> mediana;
+
+    switch(numerkolumny)
+    {
+        case 3:
+        {
+            list<Team>::iterator it = Dane.begin();
+            maks = (*it).Ocena;
+            mini = (*it).Ocena;
+            for(it; it!=Dane.end();it++)
+            {
+                suma+=(*it).Ocena;
+
+                mediana.push_back((*it).Ocena);
+            }
+
+            break;
+        }
+        case 4:
+        {
+            list<Team>::iterator it = Dane.begin();
+            maks = (*it).Wygrane;
+            mini = (*it).Wygrane;
+            for(it; it!=Dane.end();it++)
+            {
+                suma+=(*it).Wygrane;
+
+                mediana.push_back((*it).Wygrane);
+            }
+
+            break;
+        }
+        case 5:
+        {
+            list<Team>::iterator it = Dane.begin();
+            maks = (*it).Remisy;
+            mini = (*it).Remisy;
+            for(it; it!=Dane.end();it++)
+            {
+                suma+=(*it).Remisy;
+
+                mediana.push_back((*it).Remisy);
+            }
+
+            break;
+        }
+        case 6:
+        {
+            list<Team>::iterator it = Dane.begin();
+            maks = (*it).Przegrane;
+            mini = (*it).Przegrane;
+            for(it; it!=Dane.end();it++)
+            {
+                suma+=(*it).Przegrane;
+
+                mediana.push_back((*it).Przegrane);
+            }
+
+            break;
+        }
+
+    }
+
+    mediana.sort();
+
+    switch(numerfunkcji)
+    {
+        case 1:
+        {
+            if(LiczbaRekordow == 0)
+                return -1;
+            mediana.reverse();
+            return *(mediana.begin());
+        }
+        case 2:
+        {
+            if(LiczbaRekordow == 0)
+                return -1;
+            return *(mediana.begin());
+        }
+        case 3:
+        {
+            if(LiczbaRekordow == 0)
+                return -1;
+           return suma;
+        }
+        case 4:
+        {
+            if(LiczbaRekordow == 0)
+                return -1;
+            return suma/LiczbaRekordow;
+        }
+        case 5:
+        {
+            if(LiczbaRekordow == 0)
+                return -1;
+            if(LiczbaRekordow%2 == 1)
+            {
+                int p = LiczbaRekordow/2;
+                list<int>::iterator it = mediana.begin();
+                for(int i = 0; i<p; i++)
+                    it++;
+
+                return (*it);
+            }
+            else
+            {
+                float m = 0;
+                int p = LiczbaRekordow/2;
+                list<int>::iterator it = mediana.begin();
+                for(int i = 0; i<p; i++)
+                    it++;
+                m+= (*it);
+                it--;
+                m+= (*it);
+
+                m/=2.0;
+
+                return m;
+            }
+        }
+    }
+}
+///----------------------------------------- *** END *** PRIVATE FUNKCJE() ***END*** ---------------------------------------------///
+
+
+
+///-------------------------------------- *** BEGIN *** PRIVATE CZYISTNIEJE() ***BEGIN*** ----------------------------------------///
+int Database::CzyIstnieje(string druzyna)
+{
+    list<Team>::iterator it = Dane.begin();
+
+    int k = 0;
+    for(it; it != Dane.end(); it++)
+    {
+        k++;
+        if((*it).Nazwa == druzyna)
+            return k;
+    }
+    return -1;
+}
+///---------------------------------------- *** END *** PRIVATE CZYISTNIEJE() ***END*** ------------------------------------------///
+
+
+
+///----------------------------------- *** BEGIN *** PRIVATE WARUNKIREKORDOW() ***BEGIN*** ---------------------------------------///
 void Database::WarunkiRekordow(int kolumna)
 {
     string TytulyKolumn[] = {"L.P.", "Nazwa klubu", "Kraj pochodzenia", "Ocena", "Wygrane", "Remisy", "Porazki", "Bilans spotkan"};
 
     Database data2(7, "Baza danych klubow pilkarskich",  TytulyKolumn, false);
+    data2.Instrukcja = 3;
 
     list<Team>::iterator it = Dane.begin();
 
@@ -935,430 +2010,12 @@ void Database::WarunkiRekordow(int kolumna)
             break;
         }
     }
-
-
-
-
 }
-
-void Database::DodajMecz()
-{
-    string gospodarz = "", gosc = "";
-    string GoleGosci, GoleGospodarza;
-
-    Team t;
-
-    cout << "Podaj druzyne gospodarza: ";
-    gospodarz = "";
-    while(gospodarz=="")
-        cin >> gospodarz;
-
-    cout << "Podaj druzyne gosci: ";
-    gosc = "";
-    while(gosc=="")
-        cin >> gosc;
-
-    cout << "Podaj liczbe goli zdobytych przez gospodarza: ";
-    GoleGospodarza = "-1";
-    while(!t.CzyPoprawnaLiczba(GoleGospodarza))
-        cin>>GoleGospodarza;
-
-    cout << "Podaj liczbe goli zdobytych przez gosci: ";
-    GoleGosci = "-1";
-    while(!t.CzyPoprawnaLiczba(GoleGosci))
-        cin>>GoleGosci;
-
-    Aktualizuj(gospodarz, gosc, GoleGospodarza, GoleGosci);
-
-}
+///------------------------------------- *** END *** PRIVATE WARUNKIREKORDOW() ***END*** -----------------------------------------///
 
 
-void Database::Wyswietl()
-{
-    system("cls");
-    if(CzyGlowna)
-        cout << "                                                 ...Zwykly tryb bazy danych... " << endl;
-    else
-        cout << "                                                 ...Baza z rekordami zawierajacymi..." << endl;
 
-    int dlugosci_kolumn[] = {6,30,30,10,14,14,14,14};
-    Display wyswietlacz(8, LiczbaRekordow, dlugosci_kolumn,Naglowki);
-
-    wyswietlacz.WyswietlTytulBazy(NazwaBazy);
-    wyswietlacz.WyswietlNaglowek(LiczbaRekordow);
-
-    LiczbaStron = LiczbaRekordow/20;
-    if(!(LiczbaRekordow%20))
-        LiczbaStron--;
-    LiczbaStron++;
-
-    list<Team>::iterator it = Dane.begin();
-    int i = 1;
-    int n = 20*(Strona-1);
-    i+=n;
-
-    for(int p = 0; p<n; p++)
-        it++;
-    if(LiczbaRekordow)
-    {
-        for(int j = 0; j<20; j++)
-        {
-            if(LiczbaRekordow == i || i%20 == 0)
-                wyswietlacz.WyswietlRekord(i, Strona, (*it),true, i == Pozycja);
-            else
-                wyswietlacz.WyswietlRekord(i, Strona, (*it),false, i == Pozycja);
-
-            i++;
-            it++;
-            if(it == Dane.end())
-                break;
-        }
-    }
-
-
-    wyswietlacz.WyswietlNumerStrony(Strona);
-    wyswietlacz.KolorNormalny();
-    if(CzyGlowna)
-        cout << "  " << endl;
-    else
-        cout << "Aby wrocic do glownej bazy - 'Q', aby uzyc funkcji matematycznej - 'F', aby sortowac - 'S', aby zapisac rekordy do pliku - 'P'" << endl;
-
-}
-//////////////////////////////////////
-void Database::Wyswietl2()
-{
-    system("cls");
-    if(CzyGlowna)
-        cout << "                                                   ...Tryb zaznaczania kilku danych... " << endl;
-    else
-        cout << "                          ...Tryb zaznaczania kilku danych(Tabela rekordow zawierajacych)... " << endl;
-
-    int dlugosci_kolumn[] = {6,30,30,10,14,14,14,14};
-    Display wyswietlacz(8, LiczbaRekordow, dlugosci_kolumn,Naglowki);
-
-    wyswietlacz.WyswietlTytulBazy(NazwaBazy);
-    wyswietlacz.WyswietlNaglowek(LiczbaRekordow);
-
-    LiczbaStron = LiczbaRekordow/20;
-    if(!(LiczbaRekordow%20))
-        LiczbaStron--;
-    LiczbaStron++;
-
-    list<Team>::iterator it = Dane.begin();
-    int i = 1;
-    int n = 20*(Strona-1);
-    i+=n;
-
-    for(int p = 0; p<n; p++)
-        it++;
-    if(LiczbaRekordow)
-    {
-        for(int j = 0; j<20; j++)
-        {
-            if(LiczbaRekordow == i || i%20 == 0)
-                wyswietlacz.WyswietlRekord(i, Strona, (*it),true, (i>=Poz1 && i<=Poz2));
-            else
-                wyswietlacz.WyswietlRekord(i, Strona, (*it),false, (i>=Poz1 && i<=Poz2));
-
-            i++;
-            it++;
-            if(it == Dane.end())
-                break;
-        }
-    }
-
-
-    wyswietlacz.WyswietlNumerStrony(Strona);
-    wyswietlacz.KolorNormalny();
-    cout << "             Aby zakonczyc nie wprowadzajac zmian-Enter, aby usunac-Delete, aby edytowac- 'E', aby zapisac rekordy do pliku- 'P'";
-
-}
-/////////////////////////////////////////////////////
-void Database::WczytajZPlikuNoweTeamy(string NazwaPliku)
-{
-    fstream dane(NazwaPliku, ios::in);
-    string linia;
-    Team team;
-    int i = 1;
-
-    try
-    {
-        if(!dane.is_open())
-            cout << "Plik nie zostal odnaleziony...";
-        else
-        {
-           cout << "Plik otwarto poprawnie..." << endl << endl;
-
-           while(!dane.eof())
-           {
-                cout << "Proba dodania " << i << " druzyny: ";
-                getline(dane, linia);
-                if(linia=="")
-                    cout << "Pusta linia" << endl;
-                else
-                {
-                   team.WgrajTeamZPliku(linia);
-                   if(CzyIstnieje(team.Nazwa) != -1)
-                   {
-                      cout << "BLAD! Druzyna o podanej nazwie (" << team.Nazwa << ") istnieje!" << endl;
-                      continue;
-                   }
-
-                   else if(team.Ocena == -1)
-                   {
-                       cout << "BLAD! Nieprawidlowa ocena druzyny!" << endl;
-                       continue;
-                   }
-
-                   else if(team.Wygrane == -1)
-                   {
-                       cout << "BLAD! Nieprawidlowa liczba wygranych spotkan druzyny!" << endl;
-                       continue;
-                   }
-
-                   else if(team.Remisy == -1)
-                   {
-                       cout << "BLAD! Nieprawidlowa liczba remisowych spotkan druzyny!" << endl;
-                       continue;
-                   }
-
-                   else if(team.Przegrane == -1)
-                   {
-                     cout << "BLAD! Nieprawidlowa liczba przegranych spotkan druzyny!" << endl;
-                     continue;
-                   }
-
-                   else if(team.OstatniMecz == "-1" || team.PrzedOstatniMecz == "-1" || team.PrzedPrzedOstatniMecz == "-1")
-                   {
-                      cout << "BLAD! Nieprawidlowy stan jednego z zakonczonych meczow druzyny!" << endl;
-                      continue;
-                   }
-
-                   else
-                   {
-                       cout << "POWODZENIE!";
-                       team.WypiszTeam();
-                       Dane.push_back(team);
-                       LiczbaRekordow++;
-                   }
-                   i++;
-                   cout << endl;
-                }
-           }
-           dane.close();
-
-        }
-    }
-    catch(...)
-    {
-        cout << "BLAD! Nieprawidlowe dane w pliku" << endl;
-    }
-
-    cout <<  endl << "Aby kontynuowac wcisnij ENTER!";
-    char znak;
-    znak = getch();
-    while(znak != 13)
-        znak = getch();
-
-}
-
-void Database::WczytaZPlikuMecze(string NazwaPliku)
-{
-    fstream dane(NazwaPliku, ios::in);
-    string LiniaDanych, dana;
-    string gospodarz="", gosc="";
-    string GoleGospodarza="", GoleGosci="";
-    int i;
-    char znak;
-
-    try
-    {
-        if(!dane.is_open())
-        {
-            cout << "Plik nie zostal odnaleziony..." << endl << "Aby kontynuowac wcisnij ENTER!";
-            znak = 0;
-            while(znak!=13)
-                znak = getch();
-        }
-
-        else
-        {
-            cout << "Plik otwarto poprawnie..." << endl << endl;if(CzyGlowna)
-        cout << "                                                   ...Tryb zaznaczania kilku danych... " << endl;
-    else
-        cout << "                          ...Tryb zaznaczania kilku danych(Tabela rekordow zawierajacych)... " << endl;
-
-            while(!dane.eof())
-            {
-                getline(dane, LiniaDanych);
-                if(LiniaDanych=="")
-                    cout << "Pusta linia" << endl;
-                else
-                {
-                    i = 0;
-                    dana = "";
-                    while(char(LiniaDanych[i]) != ' ' && char(LiniaDanych[i]) != 0)
-                    {
-                        dana += LiniaDanych[i];
-                        i++;
-                    }
-                    gospodarz = dana;
-
-                    i++;
-                    dana = "";
-                    while(char(LiniaDanych[i]) != ' ' && char(LiniaDanych[i]) != 0)
-                    {
-                        dana += LiniaDanych[i];
-                        i++;
-                    }
-                    gosc = dana;
-
-                    i++;
-                    dana = "";
-                    while(char(LiniaDanych[i]) != ' ' && char(LiniaDanych[i]) != 0)
-                    {
-                        dana += LiniaDanych[i];
-                        i++;
-                    }
-                    GoleGospodarza = dana;
-
-                    i++;
-                    dana = "";
-                    while(char(LiniaDanych[i]) != ' ' && char(LiniaDanych[i]) != 0)
-                    {
-                        dana += LiniaDanych[i];
-                        i++;
-                    }
-                    GoleGosci = dana;
-
-                    Team t;
-
-                    if(!t.CzyPoprawnaLiczba(GoleGospodarza))
-                        cout << "Niepoprawne dane w pliku!" << endl;
-                    else if(!t.CzyPoprawnaLiczba(GoleGosci))
-                        cout << "Niepoprawne dane w pliku!" << endl;
-                    else
-                    {
-                        Aktualizuj(gospodarz, gosc, GoleGospodarza, GoleGosci);
-                    }
-                }
-            }
-
-            char znak = 0;
-            cout << endl << "Aby kontynuowac wcisnij ENTER!";
-            while(znak!=13)
-                znak = getch();
-        }
-    }
-    catch(...)
-    {
-        cout << "BLAD! Nieprawidlowe dane w pliku" << endl;
-    }
-}
-
-void Database::ZapiszWPlikuBaze(string NazwaPliku, bool wszystko)
-{
-    fstream WynikowyPlik(NazwaPliku+".txt", ios::out);
-    if(wszystko)
-    {
-        list<Team>::iterator it = Dane.begin();
-        for(it; it!= Dane.end(); it++)
-            WynikowyPlik << (*it).Nazwa << " " << (*it).Kraj << " " << (*it).Ocena << " " << (*it).Wygrane << " " << (*it).Remisy << " " << (*it).Przegrane << " " << (*it).OstatniMecz << " " << (*it).PrzedOstatniMecz << " " << (*it).PrzedPrzedOstatniMecz << endl;
-    }
-    else
-    {
-        Pozycja = Poz1;
-        list<Team>::iterator it = Dane.begin();
-        for(int i = 0; i<Pozycja; i++)
-            it++;
-        it--;
-        for(Pozycja; Pozycja!=(Poz2+1);Pozycja++)
-        {
-            WynikowyPlik << (*it).Nazwa << " " << (*it).Kraj << " " << (*it).Ocena << " " << (*it).Wygrane << " " << (*it).Remisy << " " << (*it).Przegrane << " " << (*it).OstatniMecz << " " << (*it).PrzedOstatniMecz << " " << (*it).PrzedPrzedOstatniMecz << endl;
-            it++;
-        }
-    }
-
-    WynikowyPlik.close();
-}
-
-void Database::OtworzBazeZPliku(string NazwaPliku)
-{
-    Czysc();
-    WczytajZPlikuNoweTeamy(NazwaPliku);
-}
-
-void Database::Czysc()
-{
-    list<Team>::iterator it = Dane.begin();
-    for(it; it != Dane.end(); it++)
-    {
-        Dane.erase(it);
-        LiczbaRekordow--;
-        Pozycja--;
-        if(Pozycja == 0)
-            Pozycja = 1;
-    }
-
-}
-
-bool Database::NastepnaStrona()
-{
-    int strony = LiczbaRekordow/20;
-    if(!(LiczbaRekordow%20))
-        strony--;
-    strony++;
-
-    if(Strona<strony)
-    {
-        Strona++;
-        Pozycja = (Strona-1)*20+1;
-        return true;
-    }
-    return false;
-}
-
-bool Database::PoprzedniaStrona()
-{
-    if(Strona>1)
-    {
-        Strona--;
-        Pozycja = Strona*20;
-        return true;
-    }
-    return false;
-
-}
-
-bool Database::PozycjaDol()
-{
-    if(Pozycja<LiczbaRekordow)
-    {
-        if(!(Pozycja%20))
-           Strona++;
-        Pozycja++;
-        Poz2++;
-        return true;
-    }
-    return false;
-}
-
-bool Database::PozycjaGora()
-{
-    if(Pozycja>1)
-    {
-        if(!((Pozycja-1)%20))
-            Strona--;
-        Pozycja--;
-        Poz2--;
-        if(Poz2<Poz1)
-            Poz2++;
-        return true;
-    }
-    return false;
-
-}
-
+///------------------------------------- *** BEGIN *** PRIVATE AKTUALIZUJ() ***BEGIN*** ------------------------------------------///
 void Database::Aktualizuj(string gospodarz, string gosc, string GoleGospodarza, string GoleGosci)
 {
     if(CzyIstnieje(gospodarz)!=-1 && CzyIstnieje(gosc)!=-1)
@@ -1427,7 +2084,7 @@ void Database::Aktualizuj(string gospodarz, string gosc, string GoleGospodarza, 
     }
     else if(CzyIstnieje(gospodarz)!=-1 && CzyIstnieje(gosc)==-1)
     {
-        cout << "W bazie danych istnieje tylko druzyna " << gospodarz << " czy pomimo tego chcesz zaaktualizowac jej dane?(t/n)";
+        cout << "W bazie danych istnieje tylko druzyna " << gospodarz << " czy pomimo tego chcesz zaaktualizowac jej dane?(t/n)" << endl;
         char znak = 0;
         while(znak != 't' && znak != 'n' && znak != 'T' && znak != 'N')
             znak = getch();
@@ -1465,7 +2122,7 @@ void Database::Aktualizuj(string gospodarz, string gosc, string GoleGospodarza, 
     }
     else
     {
-        cout << "W bazie danych istnieje tylko druzyna " << gosc << " czy pomimi tego chcesz zaaktualizowac jej dane?(t/n)";
+        cout << "W bazie danych istnieje tylko druzyna " << gosc << " czy pomimi tego chcesz zaaktualizowac jej dane?(t/n)" << endl;
         char znak = 0;
         while(znak != 't' && znak != 'n' && znak != 'T' && znak != 'N')
             znak = getch();
@@ -1501,505 +2158,45 @@ void Database::Aktualizuj(string gospodarz, string gosc, string GoleGospodarza, 
         }
     }
 }
+///--------------------------------------- *** END *** PRIVATE AKTUALIZUJ() ***END*** --------------------------------------------///
 
-void Database:: Uruchom()
+
+
+///--------------------------------------- *** BEGIN *** PRIVATE CZYSC() ***BEGIN*** --------------------------------------------///
+void Database::Czysc()
 {
-    char znak = 'x';
-    string sciezka = "";
-    Wyswietl();
-
-    while(true)
+    list<Team>::iterator it = Dane.begin();
+    for(it; it != Dane.end(); it++)
     {
-        znak = getch();
-        if(znak == -32)
-        {
-            znak = getch();
-
-            if(znak == 80)
-            {
-                if(PozycjaDol())
-                    Wyswietl();
-            }
-            else if(znak == 72)
-            {
-                if(PozycjaGora())
-                    Wyswietl();
-            }
-            else if(znak == 82)
-            {
-                if(CzyGlowna)
-                {
-                    system("cls");
-                    DodajTeam();
-                    Wyswietl();
-                }
-
-            }
-            else if(znak == 83)
-            {
-                if(CzyGlowna)
-                {
-                    if(LiczbaRekordow == 0)
-                    {
-                    system("cls");
-                    cout << "Nie ma czego usunac! Aby kontynuowac wcisnij ENTER!";
-                    while(znak!=13)
-                        znak = getch();
-                    }
-                    else
-                    {
-                        system("cls");
-                        UsunTeam(false);
-                    }
-                    Wyswietl();
-                }
-            }
-        }
-        else if(znak == 'm' || znak=='M')
-        {
-         if(NastepnaStrona())
-            Wyswietl();
-        }
-        else if(znak == 'n' || znak == 'N')
-        {
-            if(PoprzedniaStrona())
-                Wyswietl();
-        }
-        else if(znak == 'q' || znak == 'Q')
-        {
-
-            system("cls");
-            return ;
-
-        }
-        else if((znak == 'e' || znak == 'E') && CzyGlowna)
-        {
-            system("cls");
-            znak = 0;
-            if(LiczbaRekordow == 0)
-            {
-                cout << "Nie mozesz edytowac nieistniejach rekordow! Aby kontynuowac wcisnij ENTER!";
-                char znak = 0;
-                while(znak!=13)
-                    znak = getch();
-                Wyswietl();
-                continue;
-            }
-            cout << "Ktora kolumne edytowac?<1,7>" << endl;
-            string k= "xyz";
-            Team t;
-            while(!t.CzyPoprawnaLiczba(k))
-                cin >> k;
-            if(stoi(k)>0 && stoi(k)<8)
-            {
-               EdytujTeam(stoi(k),false);
-               k = -1;
-            }
-            else
-            {
-                cout << "Niepoprawny numer kolumny! Aby kontynuowac wcisnij ENTER!";
-                char znak = 0;
-                while(znak != 13)
-                    znak = getch();
-            }
-            Wyswietl();
-        }
-        else if(znak == 'j' || znak == 'J')
-        {
-            if(CzyGlowna)
-            {
-                system("cls");
-                sciezka = "";
-                cout << "Wprowadz sciezke dostepu do pliku z danymi lub nazwe pliku jesli znajduje sie on w folderze programu(nazwa_pliku.txt) ";
-                while(sciezka=="")
-                    cin >> sciezka;
-
-                WczytajZPlikuNoweTeamy(sciezka);
-                Wyswietl();
-            }
-
-        }
-        else if(znak == 'o' || znak == 'O')
-        {
-            if(CzyGlowna)
-            {
-                system("cls");
-                sciezka = "";
-                cout << "Wprowadz sciezke dostepu do pliku z danymi lub nazwe pliku jesli znajduje sie on w folderze programu(nazwa_pliku.txt) ";
-                while(sciezka=="")
-                    cin >> sciezka;
-                OtworzBazeZPliku(sciezka);
-                Wyswietl();
-            }
-
-        }
-        else if(znak == 'p' || znak == 'P')
-        {
-            system("cls");
-            string nazwa = "";
-            cout << "Wprowadz nazwe wyjsciowego pliku: ";
-            while(nazwa == "")
-                cin >> nazwa;
-            ZapiszWPlikuBaze(nazwa, true);
-            Wyswietl();
-        }
-        else if(znak == 'd' || znak == 'D')
-        {
-            if(CzyGlowna)
-            {
-                system("cls");
-                DodajMecz();
-                Wyswietl();
-            }
-
-        }
-        else if(znak == 'a' || znak == 'A')
-        {
-            if(CzyGlowna)
-            {
-                system("cls");
-                sciezka = "";
-                cout << "Wprowadz sciezke dostepu do pliku z danymi lub nazwe pliku jesli znajduje sie on w folderze programu(nazwa_pliku.txt) ";
-                while(sciezka=="")
-                    cin >> sciezka;
-                system("cls");
-                WczytaZPlikuMecze(sciezka);
-                Wyswietl();
-            }
-
-        }
-        else if(znak == 'z' || znak == 'Z')
-        {
-            system("cls");
-            string nazwa;
-            cout << "Jakiej druzyny szukasz?";
-            cin >> nazwa;
-            if(CzyIstnieje(nazwa)!=-1)
-                cout << endl << "Druzyna " << nazwa << " znajduje sie w bazie danych na pozycji " << CzyIstnieje(nazwa);
-            else
-                cout << endl << "Druzyna " << nazwa << " nie znajduje sie w bazie danych!";
-            cout << endl << "Aby kontynuowac wcisnij ENTER!";
-            char znak = 0;
-            while(znak!=13)
-                znak = getch();
-
-            Wyswietl();
-        }
-        else if(znak == 'f' || znak=='F')
-        {
-            int poz = 0;
-            znak = 0;
-
-            while(znak!=13)
-            {
-                system("cls");
-                cout << "Wybierz funkcje matematycznej ktora chcesz uzyc." << endl << "Pamietaj, ze funkcje matematyczne sa dostepne tylko dla danych liczbowych!" << endl << endl;
-                string funkcje[] = {"Maximum", "Minimum", " Suma ", "Srednia", "Mediana"};
-
-                for(int i = 0; i<5; i++)
-                {
-                    if(i == poz)
-                        cout << "                         ==> ";
-                    else
-                        cout << "                             ";
-                   cout << funkcje[i];
-                   if(i == poz)
-                      cout << " <==";
-
-                    cout << endl;
-                }
-                znak = getch();
-                if(znak == -32)
-                {
-                    znak = getch();
-
-                    if(znak == 80)
-                    {
-                        poz++;
-                        if(poz>4)
-                            poz = 4;
-                    }
-
-                    else if(znak == 72)
-                    {
-                        poz--;
-                        if(poz<0)
-                            poz = 0;
-                    }
-                }
-
-            }
-            cout << endl;
-            string ktora;
-            Team t;
-            switch(poz)
-            {
-                case 0:
-                {
-                    ktora = -1;
-                    cout << "W ktorej kolumnie chcesz znalezc maksimum?" << endl;
-                    while(!(t.CzyPoprawnaLiczba(ktora) && stoi(ktora)>2 && stoi(ktora)<7))
-                        cin >> ktora;
-                    cout << "Maksimum kolumny " << ktora << ": ";
-                    if(Funkcje(1,stoi(ktora))!=-1)
-                        cout << Funkcje(1,stoi(ktora));
-                    else
-                        cout << "Brak danych!";
-                    break;
-                }
-                case 1:
-                {
-                    ktora = -1;
-                    cout << "W ktorej kolumnie chcesz znalezc minimum?" << endl;
-                    while(!(t.CzyPoprawnaLiczba(ktora) && stoi(ktora)>2 && stoi(ktora)<7))
-                        cin >> ktora;
-                    cout << "Minimum kolumny " << ktora << ": ";
-                    if(Funkcje(2,stoi(ktora))!=-1)
-                        cout << Funkcje(2,stoi(ktora));
-                    else
-                        cout << "Brak danych!";
-                    break;
-                }
-                case 2:
-                {
-                    ktora = -1;
-                    cout << "Ktora kolumne chcesz zsumowac?" << endl;
-                    while(!(t.CzyPoprawnaLiczba(ktora) && stoi(ktora)>2 && stoi(ktora)<7))
-                        cin >> ktora;
-                    cout << "Suma kolumny " << ktora << ": ";
-                    if(Funkcje(3,stoi(ktora))!=-1)
-                        cout << Funkcje(3,stoi(ktora));
-                    else
-                        cout << "Brak danych!";
-                    break;
-                }
-                case 3:
-                {
-                    ktora = -1;
-                    cout << "Srednia ktorej kolumny chcesz obliczyc?" << endl;
-                    while(!(t.CzyPoprawnaLiczba(ktora) && stoi(ktora)>2 && stoi(ktora)<7))
-                        cin >> ktora;
-                    cout << "Srednia kolumny " << ktora << ": ";
-                    if(Funkcje(4,stoi(ktora))!=-1)
-                        cout << Funkcje(4,stoi(ktora));
-                    else
-                        cout << "Brak danych!";
-                    break;
-                }
-                case 4:
-                {
-                    ktora = -1;
-                    cout << "Mediane ktorej kolumny chcesz wyznaczyc?" << endl;
-                    while(!(t.CzyPoprawnaLiczba(ktora) && stoi(ktora)>2 && stoi(ktora)<7))
-                        cin >> ktora;
-                    cout << "Mediana kolumny " << ktora << ": ";
-                    if(Funkcje(5,stoi(ktora))!=-1)
-                        cout << Funkcje(5,stoi(ktora));
-                    else
-                        cout << "Brak danych!";
-                    break;
-                }
-            }
-            cout << endl << endl << "Aby kontynuowac nacisnij ENTER!";
-            znak = 0;
-            while(znak!=13)
-                znak = getch();
-
-            Wyswietl();
-
-        }
-        else if(znak == 'r' || znak == 'R')
-        {
-            if(LiczbaRekordow!=0)
-            {
-                ZaznaczKilka();
-                Wyswietl();
-            }
-            else
-            {
-                cout << "Brak danych! Aby kontynuowac wcisnij ENTER!";
-                znak = 0;
-                while(znak!=13)
-                    znak = getch();
-                Wyswietl();
-            }
-        }
-        else if(znak == 's' || znak == 'S')
-        {
-            string ktora, ros = "";
-            Team t;
-            if(LiczbaRekordow==0)
-            {
-                cout << "Brak danych! Aby kontynuowac wcisnij ENTER!";
-                znak = 0;
-                while(znak!=13)
-                    znak = getch();
-                Wyswietl();
-            }
-            else
-            {
-                system("cls");
-                cout << "Po ktorej kolumnie posortowac dane?<1,7> ";
-                ktora = -1;
-                while(!(t.CzyPoprawnaLiczba(ktora) && stoi(ktora)>0 && stoi(ktora)<8))
-                    cin >> ktora;
-
-                cout << endl << "Czy rosnaco?(t/n)";
-                while(ros!="t" && ros!="n")
-                    cin >> ros;
-
-                if(ros == "t")
-                    SortujBazePo(stoi(ktora), true);
-                else
-                    SortujBazePo(stoi(ktora), false);
-
-            }
-
-        }
-        if(znak == 'w' || znak == 'W')
-        {
-            if(CzyGlowna)
-                WybierzZawierajace();
-        }
-
+        Dane.erase(it);
+        LiczbaRekordow--;
+        Pozycja--;
+        if(Pozycja == 0)
+            Pozycja = 1;
     }
 }
+///----------------------------------------- *** END *** PRIVATE CZYSC() ***END*** ----------------------------------------------///
 
-float Database::Funkcje(int numerfunkcji, int numerkolumny) ///numery funkcji:1-max, 2-min, 3-suma, 4-srednia, 5-mediana
+
+
+///---------------------------------- *** BEGIN *** PRIVATE CZYLICZBANATURALNA ***BEGIN*** --------------------------------------///
+int Database::CzyLiczbaNaturalna(string dana)
 {
-    float suma = 0;
-    int maks = 0;
-    int mini = 0;
-    list<int> mediana;
+    int n = dana.length();
 
-    switch(numerkolumny)
+    for(int i = 0; i<n; i++)
     {
-        case 3:
-        {
-            list<Team>::iterator it = Dane.begin();
-            maks = (*it).Ocena;
-            mini = (*it).Ocena;
-            for(it; it!=Dane.end();it++)
-            {
-                suma+=(*it).Ocena;
-
-                mediana.push_back((*it).Ocena);
-            }
-
-            break;
-        }
-        case 4:
-        {
-            list<Team>::iterator it = Dane.begin();
-            maks = (*it).Wygrane;
-            mini = (*it).Wygrane;
-            for(it; it!=Dane.end();it++)
-            {
-                suma+=(*it).Wygrane;
-
-                mediana.push_back((*it).Wygrane);
-            }
-
-            break;
-        }
-        case 5:
-        {
-            list<Team>::iterator it = Dane.begin();
-            maks = (*it).Remisy;
-            mini = (*it).Remisy;
-            for(it; it!=Dane.end();it++)
-            {
-                suma+=(*it).Remisy;
-
-                mediana.push_back((*it).Remisy);
-            }
-
-            break;
-        }
-        case 6:
-        {
-            list<Team>::iterator it = Dane.begin();
-            maks = (*it).Przegrane;
-            mini = (*it).Przegrane;
-            for(it; it!=Dane.end();it++)
-            {
-                suma+=(*it).Przegrane;
-
-                mediana.push_back((*it).Przegrane);
-            }
-
-            break;
-        }
-
+        if(!(dana[i]<='9' && dana[i]>='0'))
+            return -1;
     }
 
-    mediana.sort();
-//    list<int>::iterator it = mediana.begin();
-//    for(it; it!=mediana.end(); it++)
-//        cout << (*it) << "    ";
-
-    switch(numerfunkcji)
-    {
-        case 1:
-        {
-            if(LiczbaRekordow == 0)
-                return -1;
-            mediana.reverse();
-            return *(mediana.begin());
-        }
-        case 2:
-        {
-            if(LiczbaRekordow == 0)
-                return -1;
-            return *(mediana.begin());
-        }
-        case 3:
-        {
-            if(LiczbaRekordow == 0)
-                return -1;
-           return suma;
-        }
-        case 4:
-        {
-            if(LiczbaRekordow == 0)
-                return -1;
-            return suma/LiczbaRekordow;
-        }
-        case 5:
-        {
-            if(LiczbaRekordow == 0)
-                return -1;
-            if(LiczbaRekordow%2 == 1)
-            {
-                int p = LiczbaRekordow/2;
-                list<int>::iterator it = mediana.begin();
-                for(int i = 0; i<p; i++)
-                    it++;
-
-                return (*it);
-            }
-            else
-            {
-                float m = 0;
-                int p = LiczbaRekordow/2;
-                list<int>::iterator it = mediana.begin();
-                for(int i = 0; i<p; i++)
-                    it++;
-                m+= (*it);
-                it--;
-                m+= (*it);
-
-                m/=2.0;
-
-                return m;
-            }
-
-        }
-
-    }
-
+    return stoi(dana);
 }
+///------------------------------------ *** END *** PRIVATE CZYLICZBANATURALNA ***END*** ----------------------------------------///
 
+
+
+///----------------------------------- *** BEGIN *** PRZECIAZENIA OPERATOROW ***BEGIN*** ----------------------------------------///
 bool operator < (const Team &t1, const Team &t2)
 {
     switch(PorownywanaKolumna)
@@ -2453,44 +2650,10 @@ bool operator != (const Team &t1, const Team &t2)
                 return true;
             else
                 return false;
-
         }
-
-
     }
 }
-
- bool operator < (const int &t1, const string &t2)
- {
-    if(t1 < stoi(t2))
-        return true;
-    else
-        return false;
- }
-
- bool operator > (const int &t1, const string &t2)
- {
-     if(t1 > stoi(t2))
-        return true;
-    else
-        return false;
- }
-
- bool operator == (const int &t1, const string &t2)
- {
-     if(t1 == stoi(t2))
-        return true;
-    else
-        return false;
- }
-
- bool operator != (const int &t1, const string &t2)
- {
-     if(t1 != stoi(t2))
-        return true;
-    else
-        return false;
- }
+///------------------------------------- *** END *** PRZECIAZENIA OPERATOROW ***END*** ------------------------------------------///
 
 
 

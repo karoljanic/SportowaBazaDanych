@@ -9,19 +9,19 @@
 	"Database.h"
 	"Display.h"
 
-1588118143 c:\users\user\documents\github\sportowabazadanych\bazadanych\include\team.h
+1588119278 c:\users\user\documents\github\sportowabazadanych\bazadanych\include\team.h
 	<string>
 	<fstream>
 	<iostream>
 
-1588116302 c:\users\user\documents\github\sportowabazadanych\bazadanych\include\database.h
+1588198682 c:\users\user\documents\github\sportowabazadanych\bazadanych\include\database.h
 	<string>
 	<fstream>
 	<iostream>
 	<list>
 	"Team.h"
 
-1588119096 c:\users\user\documents\github\sportowabazadanych\bazadanych\include\display.h
+1588198990 c:\users\user\documents\github\sportowabazadanych\bazadanych\include\display.h
 	<string>
 	<fstream>
 	<iostream>
@@ -29,7 +29,7 @@
 	"Team.h"
 	"Database.h"
 
-1588112343 source:c:\users\user\documents\github\sportowabazadanych\bazadanych\src\database.cpp
+1588200847 source:c:\users\user\documents\github\sportowabazadanych\bazadanych\src\database.cpp
 	<string>
 	<fstream>
 	<iostream>
@@ -40,7 +40,7 @@
 	"Database.h"
 	"Display.h"
 
-1588118938 source:c:\users\user\documents\github\sportowabazadanych\bazadanych\src\display.cpp
+1588200857 source:c:\users\user\documents\github\sportowabazadanych\bazadanych\src\display.cpp
 	<string>
 	<fstream>
 	<iostream>
@@ -49,7 +49,7 @@
 	"Database.h"
 	"Display.h"
 
-1588015557 source:c:\users\user\documents\github\sportowabazadanych\bazadanych\src\team.cpp
+1588149590 source:c:\users\user\documents\github\sportowabazadanych\bazadanych\src\team.cpp
 	<iostream>
 	<fstream>
 	<string>

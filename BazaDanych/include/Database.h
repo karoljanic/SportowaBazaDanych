@@ -38,6 +38,7 @@ class Database
         int Strona;                 /// Numer aktualnie wyswietlanej strony
         int Pozycja, Poz1, Poz2;    /// Numery aktualnych pozycji kurosora w bazie danych
         bool CzyGlowna;             /// Wartosc logiczna mowiaca o tym, czy aktualnie wyswietlana baza jest baza glowna
+        int Instrukcja;              /// Numery mowiace o tresci instrukcji
 
         list <Team> Dane;           /// Lista przechowujaca rekordy bazy danych
         string* Naglowki;           /// Tablica dynamiczna przechowujaca nazwy naglowkow bazy danych
@@ -154,6 +155,9 @@ class Database
 
         /// Pomocnicza funkcja funkcji OtworzBazeZPliu() usuwajaca wszystkie rekordy z bazy danych
         void Czysc();
+
+        /// Pomocnicza fukcja zwracajaca -1 jesli liczba przekazazna nie jest liczba naturalna(z zerem wlacznie) lub ta liczbe w przeciwnym wypadku
+        int CzyLiczbaNaturalna(string dana);
 
 
 /// *********************************** PRZECIAZENIA OPERATOROW DO POROWNYWANIA DRUZYN KLASY TEAM *********************************** ///

@@ -7,6 +7,7 @@
 
 using namespace std;
 
+///------------------------------------- *** BEGIN *** KONSTRUKTOR ***BEGIN*** ----------------------------------------///
 Team::Team(string TeamName, string Country, int SubjectiveRating, int TotalWins, int TotalDraws, int TotalLoses, string LastMatch, string BeforeLastMatch, string BeforeBeforeLastMatch)
 {
     Nazwa = TeamName;
@@ -20,12 +21,20 @@ Team::Team(string TeamName, string Country, int SubjectiveRating, int TotalWins,
     PrzedPrzedOstatniMecz = BeforeBeforeLastMatch;
     CzyWidoczny = false;
 }
+///--------------------------------------- *** END *** KONSTRUKTOR ***END*** ------------------------------------------///
 
+
+
+///------------------------------------- *** BEGIN *** DESTRUKTOR ***BEGIN*** ----------------------------------------///
 Team::~Team()
 {
 
 }
+///--------------------------------------- *** END *** DESTRUKTOR ***END*** -----------------------------------------///
 
+
+
+///---------------------------- *** BEGIN *** PUBLIC STWORZTEAMRECZNIE() ***BEGIN*** --------------------------------///
 void Team::StworzTeamRecznie()
 {
     string a = "xyz";
@@ -79,7 +88,11 @@ void Team::StworzTeamRecznie()
         cin >> a;
     PrzedPrzedOstatniMecz = a;
 }
+///------------------------------- *** END *** PUBLIC STWORZTEAMRECZNIE() ***END*** ---------------------------------///
 
+
+
+///----------------------------- *** BEGIN *** PUBLIC WGRAJTEAMZPLIKU() ***BEGIN*** ---------------------------------///
 void Team::WgrajTeamZPliku(string LiniaDanych)
 {
     int i = 0;
@@ -184,14 +197,23 @@ void Team::WgrajTeamZPliku(string LiniaDanych)
     else
         PrzedPrzedOstatniMecz = "-1";
 
-
 }
+///-------------------------------- *** END *** PUBLIC WGRAJTEAMZPLIKU() ***END*** ----------------------------------///
 
+
+
+///-------------------------------- *** BEGIN *** PUBLIC WYPISZTEAM() ***BEGIN*** -----------------------------------///
 void Team::WypiszTeam()
 {
-    cout << endl << Nazwa << endl << Kraj << endl << Ocena << endl << Wygrane << endl << Remisy << endl << Przegrane << endl << OstatniMecz << "-" << PrzedOstatniMecz << "-" << PrzedPrzedOstatniMecz << endl;
+    cout << endl << Nazwa << endl << Kraj << endl << Ocena << endl << Wygrane << endl << Remisy << endl << Przegrane << endl;
+    cout << OstatniMecz << "-" << PrzedOstatniMecz << "-" << PrzedPrzedOstatniMecz << endl;
 }
 
+///---------------------------------- *** END *** PUBLIC WYPISZTEAM() ***END*** -------------------------------------///
+
+
+
+///----------------------------- *** BEGIN *** PRIVATE CZYPOPRAWNAOCENA() ***BEGIN*** --------------------------------///
 bool Team::CzyPoprawnaOcena(string OdpowiedzUzytkownika)
 {
     int n = OdpowiedzUzytkownika.length();
@@ -204,7 +226,11 @@ bool Team::CzyPoprawnaOcena(string OdpowiedzUzytkownika)
 
     return true;
 }
+///------------------------------- *** END *** PRIVATE CZYPOPRAWNAOCENA() ***END*** ----------------------------------///
 
+
+
+///----------------------------- *** BEGIN *** PRIVATE CZYPOPRAWNALICZBA() ***BEGIN*** --------------------------------///
 bool Team::CzyPoprawnaLiczba(string OdpowiedzUzytkownika)
 {
     int n = OdpowiedzUzytkownika.length();
@@ -217,7 +243,11 @@ bool Team::CzyPoprawnaLiczba(string OdpowiedzUzytkownika)
 
     return true;
 }
+///------------------------------- *** END *** PRIVATE CZYPOPRAWNALICZBA() ***END*** ----------------------------------///
 
+
+
+///----------------------------- *** BEGIN *** PRIVATE CZYPOPRAWNYSTAN() ***BEGIN*** --------------------------------///
 bool Team::CzyPoprawnyStan(string OdpowiedzUzytkownika)
 {
     if(OdpowiedzUzytkownika == "W" || OdpowiedzUzytkownika == "D" || OdpowiedzUzytkownika == "L" || OdpowiedzUzytkownika == "-")
@@ -225,6 +255,12 @@ bool Team::CzyPoprawnyStan(string OdpowiedzUzytkownika)
 
     return false;
 }
+///------------------------------- *** END *** PRIVATE CZYPOPRAWNYSTAN() ***END*** ----------------------------------///
+
+
+
+
+
 
 
 

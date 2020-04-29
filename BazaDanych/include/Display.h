@@ -40,7 +40,8 @@ class Display
         /// Team team to druzyna ktora znajsuje sie w aktualnym rekordzie
         /// Wartosc logiczna CzyOstatni informuje czy rekord jest ostatni, czyli czy anlezy zmienic sposob dolnego obramowania bazy
         /// Wartosc logiczna CzyWyrozniony informuje czy rekord ma zostac podswietlony
-        void WyswietlRekord(int numer, int strona, Team team, bool CzyOstatni, bool CzyWyrozniony);
+        /// Liczba p to numer instrukcji jaka nalezy wyswietlac
+        void WyswietlRekord(int numer, int strona, Team team, bool CzyOstatni, bool CzyWyrozniony, int p);
 
         /// Funckja wyswietlajaca numer strony przekazany przez argument
         /// Liczba s to numer aktualnie wyswietlanej strony
@@ -61,12 +62,13 @@ class Display
         string *NaglowkiKolumn;         /// Tablica z nazwami naglowkow bazy danych
 
 
-/// ************************************************* PRYWATNE METODY KLASY 'DISPLAY' ************************************************* ///
+/// ************************************************** PRYWATNE METODY KLASY 'DISPLAY' ************************************************** ///
 
     private:
         /// Funkcja wyswietlajaca odpowiednia linie instrukcji w zaleznosci od numeru wiersza k
         /// Liczba k to numer wiersza wskazujacy jaka linie instrukcji nalezy wyswietlic
-        void WyswietlInstrukcje(int k);
+        /// Liczba n to numer instrukcji jaka nalezy wyswietlac
+        void WyswietlInstrukcje(int k, int n);
 
         /// Typ wyliczenioowy zawierajacy dostepne kolory
         enum colors{};
