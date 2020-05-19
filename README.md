@@ -10,7 +10,7 @@ Interfejs bazy danych pozwala na:
 *dostosowywanie sposobu wyswietlania danych;
 *obliczania maksimów, minimów, sum, średnich i median kolumn;
 *wyswietlanie rekordow z interesującą nas wlasnością;
-*aktualizacje danych dróżyn na podstawie zakończonych spotakań;
+*aktualizacje danych drużyn na podstawie zakończonych spotakań;
 *wiele innych działań;
 *zapisz i odczyt danych do/z pliku;
 
